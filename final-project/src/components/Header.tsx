@@ -162,7 +162,7 @@ const Header = () => {
         </AnimatePresence>
       )}
 
-      <header className="w-full flex justify-between items-center gap-2 px-4 md:px-10 lg:px-20 py-4 md:py-5 text-xl text-gray-800 dark:text-gray-100 fixed z-30">
+      <header className="w-full flex justify-between items-center gap-2 px-4 md:px-10 lg:px-20 py-4 md:py-5 text-xl text-gray-800 bg-neutral-200/50 dark:bg-neutral-800/80 dark:text-gray-100 fixed z-30">
         <Link href="/"
           className={`text-2xl font-semibold transition-opacity duration-300 ${
             showSearch ? "opacity-0 invisible md:opacity-100 md:visible" : ""
@@ -172,7 +172,7 @@ const Header = () => {
         </Link>
         <nav className="hidden md:block">
           <ul className="flex justify-center items-center gap-6 lg:gap-10 text-sm font-semibold">
-            {["women", "men", "accessories", "new arrivals"].map((item) => (
+            {["women", "men", "accessories", "arrivals"].map((item) => (
               <li className="text-center" key={item}>
                 <Link
                   href={`/${item}`}
@@ -193,7 +193,7 @@ const Header = () => {
             ref={searchInputRef}
             type="text"
             placeholder="Search..."
-            className={`fixed md:static left-5 md:left-0 px-2 py-1 border border-gray-900 dark:border-gray-300 text-sm outline-none dark:bg-neutral-900 dark:text-white transition-all duration-300 ${
+            className={`fixed md:static left-5 md:left-0 px-2 py-1 border border-gray-900 dark:border-gray-300 text-sm outline-none bg-neutral-200 dark:bg-neutral-800 dark:text-white transition-all duration-300 ${
               showSearch
                 ? "opacity-100 w-1/2 md:w-[150px] mr-2"
                 : "opacity-0 w-0 pointer-events-none"

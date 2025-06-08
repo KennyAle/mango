@@ -28,10 +28,10 @@
 }
 
 .custom-pagination .swiper-pagination-bullet {
-  @apply w-1 h-1 bg-gray-400 opacity-70 rounded-full;
+  @apply w-1 h-1 bg-gray-400 dark:bg-gray-500 opacity-70 rounded-full;
 }
 .custom-pagination .swiper-pagination-bullet-active {
-  @apply bg-stone-600 opacity-100;
+  @apply bg-stone-600 dark:bg-stone-100 opacity-100;
 }
 
 

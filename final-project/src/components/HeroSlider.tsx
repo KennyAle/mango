@@ -9,13 +9,13 @@ import { BiLeftArrowCircle, BiRightArrowCircle } from "react-icons/bi";
 
 const HeroSlider = () => {
   const [swiperRef, setSwiperRef] = useState<SwiperType | null>(null);
-  const [isMounted, setIsMounted] = useState(false); 
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
-  if (!isMounted) return null; 
+  if (!isMounted) return <div className="lg:min-w-75 aspect-[3/4] w-full bg-transparent" />;
 
   return (
     <div className="w-full max-w-screen md:h-80 px-6 md:px-10 lg:px-0 lg:max-w-75 mx-auto">
@@ -41,20 +41,19 @@ const HeroSlider = () => {
       >
         {Array.from({ length: 4 }).map((_, i) => (
           <SwiperSlide key={i}>
-            <div className="bg-blue-400 text-white flex items-center justify-center aspect-[3/4] rounded">
+            <div className="bg-blue-400 text-white flex items-center justify-center aspect-[3/4]">
               Slide {i + 1}
             </div>
           </SwiperSlide>
         ))}
       </Swiper>
-
       <div className="flex items-center justify-between gap-4 mt-4">
         <button
           onClick={() => swiperRef?.slidePrev()}
-          className="flex items-center gap-2 dark:text-white"
+          className="flex items-center gap-2 dark:text-neutral-300"
         >
           <BiLeftArrowCircle className="text-2xl" />
-          <span className="text-xs text-neutral-500 font-semibold uppercase">
+          <span className="text-xs text-neutral-500 dark:text-neutral-400 font-semibold uppercase">
             prev
           </span>
         </button>
@@ -63,9 +62,9 @@ const HeroSlider = () => {
 
         <button
           onClick={() => swiperRef?.slideNext()}
-          className="flex items-center gap-2 dark:text-white"
+          className="flex items-center gap-2 dark:text-neutral-300"
         >
-          <span className="text-xs text-neutral-500 font-semibold uppercase">
+          <span className="text-xs text-neutral-500 dark:text-neutral-400 font-semibold uppercase">
             next
           </span>
           <BiRightArrowCircle className="text-2xl" />
