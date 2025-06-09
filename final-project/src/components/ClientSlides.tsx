@@ -52,7 +52,6 @@ const ClientSlides = () => {
         slidesPerView={2}
         navigation
         pagination={{ clickable: true}}
-        autoplay={{ delay: 5000, disableOnInteraction: false }}
         loop={true}
         onSlideChange={(swiper) => {
             setSlideIndex(swiper.realIndex)
