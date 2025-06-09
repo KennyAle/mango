@@ -18,7 +18,7 @@ const ProductSection = () => {
   const [selectedCategory, setSelectedCategory] = useState("mens-shirts");
 
   return (
-    <div className="flex flex-col px-4 lg:px-20 space-y-6 w-full pb-10">
+    <div className="flex flex-col px-4 lg:px-20 pt-15 space-y-6 w-full">
       <h2 className="dark:text-whitetext-3xl text-balance md:text-4xl lg:text-5xl text-center font-bold pb-5">
         Our Featured Products
       </h2>
