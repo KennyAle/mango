@@ -47,7 +47,7 @@ const Faq = () => {
         {faqData.map(({ question, answer }, index) => (
           <details
             key={index}
-            className="group w-full border dark:border-neutral-500 rounded-md open:shadow-md open:bg-black text-stone-200 dark:text-neutral-300 open:border-black"
+            className="group w-full border dark:border-neutral-500 rounded-md open:shadow-md open:bg-black open:text-stone-200 dark:text-neutral-300 open:border-black"
           >
             <summary className="flex items-center justify-between cursor-pointer p-5 font-medium text-left text-base md:text-lg list-none marker:hidden">
               <span className="text-balance">{question}</span>
