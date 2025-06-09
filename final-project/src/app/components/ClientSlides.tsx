@@ -31,7 +31,7 @@ const slides =  [
     {
         name: 'Julia Brabrabra',
         img: 'https://placehold.jp/50x50.png',
-        text: 'Magnam assumenda lorem ipsum dolor sit amet consectetur adipisicing elit.'
+        text: 'Magnam assumenda lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nihil, illo quasi! '
     },
     {
         name: 'Kenny Hehehe',
@@ -60,10 +60,10 @@ const ClientSlides = () => {
       >
         { slides.map((slide, index) => (
             <SwiperSlide key={index}>
-                <div className={`p-6 rounded-lg shadow-md h-50 flex flex-col items-center text-center gap-3 ${slideIndex === index ? "bg-black text-white":"bg-white text-black"}`}>
-                    <img src={slide.img} alt={slide.name} className="rounded-full w-16 h-16"/>
-                    <h1 className="font-semibold text-lg">{slide.name}</h1>
-                    <p className="text-sm w-2/3">{slide.text}</p>
+                <div className={`p-6 rounded-lg shadow-md h-80 sm:h-64 md:h-72 flex flex-col justify-center items-center text-center gap-3 ${slideIndex === index ? "bg-black text-white":"bg-white text-black"}`}>
+                    <img src={slide.img} alt={slide.name} className="rounded-full w-18 h-18"/>
+                    <h1 className="font-semibold text-lg text-center">{slide.name}</h1>
+                    <p className="text-sm max-w-xs sm:max-w-md md:max-w-lg w-full px-2">{slide.text}</p>
                 </div>
             </SwiperSlide>
         ))}
