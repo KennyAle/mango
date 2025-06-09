@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { BiCartAlt, BiMenu, BiSearch, BiUser } from "react-icons/bi";
 import { AnimatePresence, motion } from "framer-motion";
+import Cart from "./Cart";
 
 const categories = [
   "mens-shirts",
@@ -58,6 +59,7 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
+  const [isCartOpen, setIsCartOpen] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
 
@@ -94,13 +96,16 @@ const Header = () => {
     <>
       {mounted && (
         <AnimatePresence>
-          {isMenuOpen && (
+          {(isMenuOpen || isCartOpen )&& (
             <motion.div
               className="fixed inset-0 bg-neutral-900/80 z-40"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              onClick={() => setIsMenuOpen(false)}
+              onClick={() => {
+                setIsMenuOpen(false)
+                setIsCartOpen(false)
+              }}
             />
           )}
         </AnimatePresence>
@@ -159,11 +164,23 @@ const Header = () => {
               ))}
             </motion.aside>
           )}
+          {isCartOpen && (
+            <motion.aside
+            className="fixed z-100"
+              initial={{ x: "-100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "-100%" }}
+              transition={{ type: "tween", duration: 0.3 }}
+            >
+              <Cart />
+            </motion.aside>
+          )}
         </AnimatePresence>
       )}
 
       <header className="w-full flex justify-between items-center gap-2 px-4 md:px-10 lg:px-20 py-3 md:py-3 text-xl text-gray-800 bg-neutral-200 dark:bg-neutral-800/80 dark:text-gray-100 fixed z-30">
-        <Link href="/"
+        <Link
+          href="/"
           className={`text-2xl font-semibold transition-opacity duration-300 ${
             showSearch ? "opacity-0 invisible md:opacity-100 md:visible" : ""
           }`}
@@ -185,10 +202,7 @@ const Header = () => {
           </ul>
         </nav>
 
-        <div
-          className="flex items-center gap-4 relative"
-          ref={searchRef}
-        >
+        <div className="flex items-center gap-4 relative" ref={searchRef}>
           <input
             ref={searchInputRef}
             type="text"
@@ -212,15 +226,15 @@ const Header = () => {
           >
             <BiUser />
           </Link>
-          <Link
-            href="/cart"
-            className="hover:text-orange-500 dark:hover:text-yellow-400 transition-colors duration-200"
+          <button
+            onClick={() => setIsCartOpen((prev) => !prev)}
+            className="cursor-pointer hover:text-orange-500 dark:hover:text-yellow-400 transition-colors duration-200"
           >
             <BiCartAlt />
-          </Link>
+          </button>
           <div className="h-7 w-0.5 bg-black dark:bg-white mx-2 rounded-full" />
           <button
-            onClick={() => setIsMenuOpen(true)}
+            onClick={() => setIsMenuOpen((prev) => !prev)}
             className="hover:text-orange-500 dark:hover:text-yellow-400 transition-colors duration-200 cursor-pointer"
             aria-label="Open menu"
           >
