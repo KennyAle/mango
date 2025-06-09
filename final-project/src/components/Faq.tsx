@@ -40,7 +40,7 @@ const faqData = [
 const Faq = () => {
   return (
     <section className="w-full flex flex-col gap-10 px-6 py-15 md:px-10 lg:px-20">
-      <h2 className="text-3xl md:text-4xl lg:text-5xl text-center font-bold">
+      <h2 className="text-3xl text-balance md:text-4xl lg:text-5xl text-center font-bold">
         Frequently Asked Questions
       </h2>
       <div className="w-full flex flex-col gap-3">
@@ -50,7 +50,7 @@ const Faq = () => {
             className="group w-full border dark:border-neutral-500 rounded-md open:shadow-md open:bg-black text-stone-200 dark:text-neutral-300 open:border-black"
           >
             <summary className="flex items-center justify-between cursor-pointer p-5 font-medium text-left text-base md:text-lg list-none marker:hidden">
-              <span>{question}</span>
+              <span className="text-balance">{question}</span>
               <svg
                 className="w-5 h-5 transform transition-transform duration-200 group-open:rotate-180"
                 fill="none"
@@ -65,7 +65,7 @@ const Faq = () => {
                 />
               </svg>
             </summary>
-            <div className="px-5 pb-10 text-sm">{answer}</div>
+            <p className="px-5 pb-10 text-sm text-pretty">{answer}</p>
           </details>
         ))}
       </div>
