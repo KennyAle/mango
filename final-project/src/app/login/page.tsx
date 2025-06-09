@@ -13,7 +13,7 @@ const Page = () => {
   };
 
   return (
-    <main className="min-h-screen px-6 py-25 bg-stone-200 dark:bg-neutral-900 flex items-center justify-center transition-all duration-300">
+    <main className="min-h-screen px-6 py-20 bg-stone-200 dark:bg-neutral-900 flex items-center justify-center transition-all duration-300">
       <div className="flex flex-col md:flex-row w-full max-w-4xl rounded-lg overflow-hidden bg-white dark:bg-neutral-800 transition-all duration-300">
         <div className="w-full md:w-1/2 p-8 flex flex-col gap-6 justify-center relative min-h-[500px]">
           <AnimatePresence mode="wait">

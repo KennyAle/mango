@@ -7,7 +7,7 @@ import Newsletter from "./components/Newsletter"
 
 const page = () => {
   return (
-    <main className="bg-stone-300 dark:bg-neutral-900">
+    <main className="bg-[#d2cdc1] dark:bg-neutral-900">
       <Hero />
       <Faq />
       <Clientssays />
