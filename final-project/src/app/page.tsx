@@ -1,12 +1,13 @@
 import Faq from "@/components/Faq";
 import Hero from "@/components/Hero";
-import Image from "next/image";
+import ProductSection from "@/components/ProductSection";
 
 export default function Home() {
   return (
-    <main className="bg-stone-300 dark:bg-neutral-900">
+    <main className="bg-[#d2cdc1] dark:bg-neutral-900">
       <Hero />
       <Faq />
+      <ProductSection />
     </main>
   );
 }

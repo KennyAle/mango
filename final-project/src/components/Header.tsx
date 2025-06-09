@@ -162,7 +162,7 @@ const Header = () => {
         </AnimatePresence>
       )}
 
-      <header className="w-full flex justify-between items-center gap-2 px-4 md:px-10 lg:px-20 py-4 md:py-5 text-xl text-gray-800 bg-neutral-200/50 dark:bg-neutral-800/80 dark:text-gray-100 fixed z-30">
+      <header className="w-full flex justify-between items-center gap-2 px-4 md:px-10 lg:px-20 py-3 md:py-3 text-xl text-gray-800 bg-neutral-200 dark:bg-neutral-800/80 dark:text-gray-100 fixed z-30">
         <Link href="/"
           className={`text-2xl font-semibold transition-opacity duration-300 ${
             showSearch ? "opacity-0 invisible md:opacity-100 md:visible" : ""
