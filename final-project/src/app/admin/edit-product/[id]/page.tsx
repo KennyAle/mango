@@ -10,6 +10,15 @@ type Props = {
 const EditProduct = ({ params }: Props) => {
   const { id } = use(params)
 
+  const [thisProduct, setThisProduct] = useState<Product>({
+    id: 0,
+    title: '',
+    image: null,
+    description: '',
+    price: 0,
+    category: []
+  })
+
   const [formInputs, setFormInputs] = useState<Omit<Product, 'id'>>({
     title: '',
     image: null,
@@ -60,13 +69,13 @@ const EditProduct = ({ params }: Props) => {
   //replace with fetch request
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const newProduct = {
+    const editedProduct = {
       ...formInputs,
-      id: Math.floor(Math.random()*9000000) + 1000000
+      id: thisProduct.id
     }
     setProducts(prevState => ([
       ...prevState,
-      newProduct
+      editedProduct
     ]))
 
     setFormInputs({
@@ -77,7 +86,7 @@ const EditProduct = ({ params }: Props) => {
       category: []
     })
 
-    alert('prodcut added successfully')
+    alert('prodcut edited successfully')
   }
 
   useEffect(() => {
@@ -85,6 +94,7 @@ const EditProduct = ({ params }: Props) => {
       const res = await fetch(`https://dummyjson.com/products/${id}`)
       const data = await res.json()
       setFormInputs(data)
+      setThisProduct(data)
     }
 
     fetchProduct()
