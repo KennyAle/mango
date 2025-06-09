@@ -41,7 +41,7 @@ const AdminProducts = () => {
       <h1 className="text-2xl mb-4">All Products</h1>
       <div className="w-full">
         {products.map((product: DummyProduct) => (
-          <div key={product.id} className="flex justify-between items-stretch border">
+          <div key={product.id} className={`flex justify-between items-stretch ${product.id === 1 ? 'border' : 'border-x border-b'}`}>
             <div className="relative h-[150px] w-[150px] border-r">
               <Image src={product.thumbnail} alt={product.title} fill className="object-contain" /> 
             </div>
@@ -56,12 +56,12 @@ const AdminProducts = () => {
             <div className="flex justify-center">
               <div className="flex items-center border-l px-4">
                 <Link href={`/admin/product/${product.id}`}>
-                  <button className="border rounded-lg py-2 px-4 cursor-pointer hover:bg-gray-700 transition">Detail</button>
+                  <button className="border rounded-lg py-2 px-4 cursor-pointer hover:bg-gray-200 transition">Detail</button>
                 </Link>
               </div>
               <div className="flex items-center border-x px-4">
-                <Link href={'/admin/edit-product'}>
-                  <button className="border rounded-lg py-2 px-4 hover:bg-gray-700 transition">Edit</button>
+                <Link href={`/admin/edit-product/${product.id}`}>
+                  <button className="border rounded-lg py-2 px-4 hover:bg-gray-200 transition">Edit</button>
                 </Link>
               </div>
               <div className="flex items-center px-4">

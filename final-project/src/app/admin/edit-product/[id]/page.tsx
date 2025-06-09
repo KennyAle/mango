@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, ChangeEvent, FormEvent, use } from "react"
-import { Product, DummyProduct } from "@/types/product.types"
+import { Product } from "@/types/product.types"
 
 type Props = {
   params: Promise<{id: string}>
