@@ -1,13 +1,21 @@
 import Faq from "@/components/Faq";
 import Hero from "@/components/Hero";
-import ProductSection from "@/components/ProductSection";
+import Clientssays from "./components/Clientssays"
+import Giftguides from "./components/Giftguides"
+import Mediasearch from "./components/Mediasearch"
+import Newsletter from "./components/Newsletter"
 
-export default function Home() {
+const page = () => {
   return (
     <main className="bg-[#d2cdc1] dark:bg-neutral-900">
       <Hero />
       <Faq />
-      <ProductSection />
+      <Clientssays />
+      <Giftguides />
+      <Mediasearch />
+      <Newsletter />
     </main>
   );
 }
+
+export default page
