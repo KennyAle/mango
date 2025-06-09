@@ -207,7 +207,7 @@ const Header = () => {
             <BiSearch />
           </button>
           <Link
-            href="/account"
+            href="/login"
             className="hover:text-orange-500 dark:hover:text-yellow-400 transition-colors duration-200"
           >
             <BiUser />

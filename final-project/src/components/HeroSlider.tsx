@@ -41,8 +41,8 @@ const HeroSlider = () => {
       >
         {Array.from({ length: 4 }).map((_, i) => (
           <SwiperSlide key={i}>
-            <div className="bg-blue-400 text-white flex items-center justify-center aspect-[3/4]">
-              Slide {i + 1}
+            <div className="bg-stone-400 text-white flex items-center justify-center aspect-[3/4]">
+              Slide
             </div>
           </SwiperSlide>
         ))}
@@ -50,7 +50,7 @@ const HeroSlider = () => {
       <div className="flex items-center justify-between gap-4 mt-4">
         <button
           onClick={() => swiperRef?.slidePrev()}
-          className="flex items-center gap-2 dark:text-neutral-300"
+          className="cursor-pointer flex items-center gap-2 dark:text-neutral-300"
         >
           <BiLeftArrowCircle className="text-2xl" />
           <span className="text-xs text-neutral-500 dark:text-neutral-400 font-semibold uppercase">
@@ -62,7 +62,7 @@ const HeroSlider = () => {
 
         <button
           onClick={() => swiperRef?.slideNext()}
-          className="flex items-center gap-2 dark:text-neutral-300"
+          className="cursor-pointer flex items-center gap-2 dark:text-neutral-300"
         >
           <span className="text-xs text-neutral-500 dark:text-neutral-400 font-semibold uppercase">
             next
