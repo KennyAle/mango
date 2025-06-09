@@ -10,15 +10,12 @@ const page = () => {
     <main className="bg-stone-300 dark:bg-neutral-900">
       <Hero />
       <Faq />
+      <Clientssays />
+      <Giftguides />
+      <Mediasearch />
+      <Newsletter />
     </main>
   );
-    <div>
-      <Mediasearch />
-      <Giftguides />
-      <Clientssays />
-      <Newsletter />
-    </div>
-  )
 }
 
 export default page
