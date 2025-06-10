@@ -3,6 +3,7 @@
 import { DummyProduct } from "@/types/product.types"
 import Image from "next/image"
 import { useEffect, use, useState } from "react"
+import Link from "next/link"
 
 type Props = {
   params: Promise<{id: string}>
@@ -43,6 +44,10 @@ const ProductDetail = ({ params }: Props) => {
           <p>{thisProduct.description}</p>
           <p className="my-2">Category: {thisProduct.category}</p>
           <p className="mt-4 text-xl">${thisProduct.price}</p>
+          <div className="mt-8 text-right">
+            <Link href={`/admin/edit-product/${id}`} className="shadow-[0_0_1px] rounded-lg px-4 py-3 mr-10 hover:bg-gray-100 transition">EDIT</Link>
+            <button className="shadow-[0_0_1px] rounded-lg px-4 py-2 bg-red-500 hover:bg-red-400/70">DELETE</button>
+          </div>
         </div>
       </div>
     </div>
