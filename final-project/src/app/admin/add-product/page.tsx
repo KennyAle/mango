@@ -89,15 +89,15 @@ const AddProduct = () => {
   return (
     <div className="flex flex-col justify-center items-center p-4">
       <h1 className="text-xl mb-4">Add Product</h1>
-      <form onSubmit={handleSubmit} className="flex flex-col w-2/3">
+      <form onSubmit={handleSubmit} className="flex flex-col w-2/3 bg-gray-100 rounded-lg p-8">
         <label htmlFor="title">Product Title</label>
-        <input type="text" name="title" required placeholder="Enter product title..." value={formInputs.title} onChange={(e) => handleChange(e)} className="border p-1 rounded-lg my-2" />
+        <input type="text" name="title" required placeholder="Enter product title..." value={formInputs.title} onChange={(e) => handleChange(e)} className="border p-1 rounded mb-4 mt-1" />
         <label htmlFor="image">Product Image</label>
-        <input type="file" name="image" onChange={(e) => handleImage(e)} className="border p-1 rounded-lg my-2" />
+        <input type="file" name="image" onChange={(e) => handleImage(e)} className="border p-1 rounded mb-4 mt-1" />
         <label htmlFor="description">Product Description</label>
-        <textarea name="description" id="description" required placeholder="Enter product description..." value={formInputs.description} onChange={(e) => handleChange(e)} className="border p-1 rounded-lg my-2"></textarea>
+        <textarea name="description" id="description" required placeholder="Enter product description..." value={formInputs.description} onChange={(e) => handleChange(e)} className="border p-1 rounded mb-4 mt-1"></textarea>
         <label htmlFor="price">Product Price</label>
-        <input type="number" name="price" required placeholder="Enter product price..." value={formInputs.price} onChange={(e) => handleChange(e)} className="border p-1 rounded-lg my-2" />
+        <input type="number" name="price" required placeholder="Enter product price..." value={formInputs.price} onChange={(e) => handleChange(e)} className="border p-1 rounded mb-4 mt-1" />
         <div>
           <h3>Product Category</h3>
           <div className="flex flex-col">
@@ -109,7 +109,7 @@ const AddProduct = () => {
             ))}
           </div>
         </div>
-        <button className="border rounded-lg p-2 mt-4">Submit</button>
+        <button className="border rounded p-2 mt-4">Submit</button>
       </form>
     </div>
   )
