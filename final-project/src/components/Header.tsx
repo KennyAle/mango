@@ -172,7 +172,7 @@ const Header = () => {
               exit={{ x: "-100%" }}
               transition={{ type: "tween", duration: 0.3 }}
             >
-              <Cart />
+              <Cart isCartOpen={isCartOpen} setIsCartOpen={setIsCartOpen} />
             </motion.aside>
           )}
         </AnimatePresence>
@@ -215,7 +215,7 @@ const Header = () => {
           />
           <button
             onClick={() => setShowSearch((prev) => !prev)}
-            className="hover:text-orange-500 dark:hover:text-yellow-400 transition-colors duration-200"
+            className="cursor-pointer hover:text-orange-500 dark:hover:text-yellow-400 transition-colors duration-200"
             aria-label="Toggle search input"
           >
             <BiSearch />
