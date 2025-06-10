@@ -55,7 +55,7 @@ const AdminProducts = () => {
             </div>
             <div className="flex justify-center">
               <div className="flex items-center border-l px-4">
-                <Link href={`/admin/product/${product.id}`}>
+                <Link href={`/admin/products/${product.id}`}>
                   <button className="border rounded-lg py-2 px-4 cursor-pointer hover:bg-gray-200 transition">Detail</button>
                 </Link>
               </div>
