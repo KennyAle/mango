@@ -41,7 +41,7 @@ const AdminProducts = () => {
       <div className="m-6 w-3/4">
         <div className="text-center mb-10 w-full flex  items-center justify-end gap-4">
           <div className="w-full flex-1">
-            <h1 className="text-2xl">All Products</h1>
+            <h1 className="text-2xl">Products</h1>
           </div>
           <Link href='/admin/add-product' className="shadow-[0_0_1px] rounded-lg px-4 py-3 mr-10 hover:bg-gray-100 transition w-32">Add Product</Link>
         </div>
@@ -71,7 +71,7 @@ const AdminProducts = () => {
                   </Link>
                 </div>
                 <div className="flex items-center px-4">
-                  <button className="border rounded-lg py-2 px-4 bg-red-500 text-black hover:bg-red-300 transition">Delete</button>
+                  <button className="border rounded-lg py-2 px-4 bg-red-500 text-black hover:bg-red-400/70 transition">Delete</button>
                 </div>
               </div>
             </div>
