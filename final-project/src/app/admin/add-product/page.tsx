@@ -101,7 +101,7 @@ const AddProduct = () => {
           </div>
           <div className="flex flex-col">
             <label htmlFor="description">Product Description</label>
-            <textarea name="description" id="description" required placeholder="Enter product description..." value={formInputs.description} onChange={(e) => handleChange(e)} className="border p-3 rounded bg-white dark:bg-neutral-700 dark:border-neutral-600 text-black dark:text-white"></textarea>
+            <textarea name="description" id="description" required placeholder="Enter product description..." value={formInputs.description} onChange={(e) => handleChange(e)} className="border p-3 rounded bg-white dark:bg-neutral-700 dark:border-neutral-600 text-black dark:text-white min-h-[200pxgi]"></textarea>
           </div>
           <div className="flex flex-col">
             <label htmlFor="price">Product Price</label>
