@@ -26,7 +26,7 @@ const Contact = () => {
   
   return (
     <div className="flex flex-col justify-center items-center w-full min-h-screen">
-      <div className="bg-white dark:bg-neutral-800 p-8 w-4/5 md:w-2/4">
+      <div className="bg-white dark:bg-neutral-800 p-8 w-4/5 md:w-2/4 mt-22 mb-20">
         <h1 className="text-center text-2xl mb-4">Contact</h1>
         <form onSubmit={handleSubmit} ref={formRef} className="flex flex-col gap-4">
           <div className="flex flex-col">
