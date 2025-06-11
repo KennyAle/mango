@@ -4,43 +4,19 @@ import Mediasearch from "@/components/Mediasearch"
 import { motion } from "framer-motion";
 
 const brands = [
-  {
-    name: 'ZARA',
-    logo: '/img_aboutpage/ana.png',
-  },
-  {
-    name: 'Uniqlo',
-    logo: '/img_aboutpage/charlott.png',
-  },
-  {
-    name: 'Rolex',
-    logo: '/img_aboutpage/inglot.png',
-  },
-  {
-    name: 'Casio',
-    logo: '/img_aboutpage/kry.png',
-  },
-  {
-    name: 'Uniqlo',
-    logo: '/img_aboutpage/lancome.png',
-  },
-  {
-    name: 'Uniqlo',
-    logo: '/img_aboutpage/laura.png',
-  },
-  {
-    name: 'Uniqlo',
-    logo: '/img_aboutpage/mac.png',
-  },
-  {
-    name: 'Uniqlo',
-    logo: '/img_aboutpage/tarte.png',
-  },
+  { name: 'ZARA', logo: '/img_aboutpage/ana.png'},
+  { name: 'Uniqlo', logo: '/img_aboutpage/charlott.png'},
+  { name: 'Rolex', logo: '/img_aboutpage/inglot.png'},
+  { name: 'Casio', logo: '/img_aboutpage/kry.png'},
+  { name: 'Uniqlo', logo: '/img_aboutpage/lancome.png'},
+  { name: 'Uniqlo', logo: '/img_aboutpage/laura.png'},
+  { name: 'Uniqlo', logo: '/img_aboutpage/mac.png'},
+  { name: 'Uniqlo', logo: '/img_aboutpage/tarte.png'},
 ];
 
   const members = [
     { name: "Julia", role: "Snack Hunter", img: "/faces/julia.png" },
-    { name: "Kenny", role: "Visual King", img: "/faces/kenny.png" },
+    { name: "Kenny", role: "Visual Dominion", img: "/faces/kenny.png" },
     { name: "Mizuki", role: "Mission Accomplisher", img: "/faces/mizuki.png" },
     { name: "Alana", role: "Unexpected Action", img: "/faces/alana.png" },
     { name: "Tomoya", role: "Silent Force", img: "/faces/tomoya.png" },
@@ -51,10 +27,10 @@ const page = () => {
     <div className="relative top-28 flex flex-col justify-center items-center">
       <section className="flex justify-center items-center w-10/12">
         <div className="flex-1 flex flex-col gap-3 w-full">
-          <h1 className="text-4xl font-semibold">Fuel Your <span className="text-4xl font-semibold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent ">Fabuluxe</span></h1>
+          <h1 className="text-4xl font-semibold">Fuel Your <span className="text-4xl font-semibold bg-gradient-to-r from-stone-800 via-stone-400 to-gray-400 bg-clip-text text-transparent ">Fabuluxe</span></h1>
           <h1 className="text-3xl font-semibold">Where fashion meets authenticity</h1>
           <p>Founded with a passion for individuality and self-expression, MANGO is here to make fashion simple, fun, and accessible. Whether you're dressing up for a big night out or curating your everyday essentials, we’ve got you covered.</p>
-          <button className="bg-blue-600 hover:bg-blue-900 text-white rounded-full px-4 py-1 text-xs font-semibold w-fit transition cursor-pointer">Get Started</button>
+          <button className="bg-black hover:bg-gray-600 text-white rounded-full px-4 py-1 text-xs font-semibold w-fit transition cursor-pointer">Get Started</button>
         </div>
         <div className="flex-1 flex justify-center items-center">
           <img className="rounded-2xl" src="https://placehold.jp/500x300.png" alt="" />
