@@ -20,7 +20,7 @@ export class Cart {
   get user(): User | undefined { return this._user; }
   get cartItems(): CartItem[] { return this._cartItems; }
 
-  setUser(user: User) {
+  attachUser(user: User) {
     this._user = user;
   }
 
@@ -43,7 +43,8 @@ export class Cart {
   }
 
   getTotalAmount():number {
-    return this._cartItems.reduce((sum, item) => sum + item.getSubTotal(), 0);
+    const total = this._cartItems.reduce((sum, item) => sum + item.getSubTotal(), 0);
+    return Math.round(total * 100) / 100;
   }
 
   toPlainObject() {
