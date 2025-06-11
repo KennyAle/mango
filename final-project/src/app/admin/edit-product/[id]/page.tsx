@@ -12,11 +12,11 @@ const EditProduct = ({ params }: Props) => {
 
   const [thisProduct, setThisProduct] = useState<Product>({
     id: 0,
-    title: '',
-    image: null,
+    productName: '',
+    mainImage: '',
     description: '',
     price: 0,
-    category: []
+    category: { id: 0, categoryName: ''}
   })
 
   const [formInputs, setFormInputs] = useState<Omit<Product, 'id'>>({
