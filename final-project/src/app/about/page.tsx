@@ -39,11 +39,11 @@ const brands = [
 ];
 
   const members = [
-    { name: "Julia", role: "Snack Hunter", img: "/faces/julia2.png" },
-    { name: "Kenny", role: "Visual King", img: "/faces/kenny2.png" },
-    { name: "Mizuki", role: "Master of Mission", img: "/faces/mizuki2.png" },
-    { name: "Alana", role: "Unexpected One", img: "/faces/alana2.png" },
-    { name: "Tomoya", role: "Silent Force", img: "/faces/tomoya2.png" },
+    { name: "Julia", role: "Snack Hunter", img: "/faces/julia.png" },
+    { name: "Kenny", role: "Visual King", img: "/faces/kenny.png" },
+    { name: "Mizuki", role: "Mission Accomplisher", img: "/faces/mizuki.png" },
+    { name: "Alana", role: "Unexpected Action", img: "/faces/alana.png" },
+    { name: "Tomoya", role: "Silent Force", img: "/faces/tomoya.png" },
   ];
 
 const page = () => {
