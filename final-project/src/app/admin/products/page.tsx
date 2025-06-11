@@ -48,8 +48,8 @@ const AdminProducts = () => {
 
   return (
     <div className="flex flex-col w-full items-center">
-      <div className="m-6 w-3/4">
-        <div className="text-center mb-10 w-full flex items-center gap-4">
+      <div className="m-6 md:w-3/4 w-full md:p-0 p-8 mt-20">
+        <div className="text-center mb-10 w-full flex items-center gap-4 ">
           <div>
             <form method='GET' action='/products' className='flex justify-center items-center md:mt-4'>
               <input type="text" value={searchInput} name='search' onChange={handleChange} placeholder='Search...' className='shadow-[0_0_1px] rounded-3xl w-full py-2 pl-4 pr-9' />
@@ -61,14 +61,14 @@ const AdminProducts = () => {
           </div>
           <Link href='/admin/add-product' className="shadow-[0_0_1px] rounded-lg px-4 py-3 mr-10 hover:bg-gray-100 transition w-32">Add Product</Link>
         </div>
-        <div className="w-full">
+        <div className="w-full overflow-scroll custom-scrollbar">
           {products.map((product: DummyProduct, index: number) => (
-            <div key={product.id} className={`flex justify-between items-stretch ${index === 0 ? 'border' : 'border-x border-b'}`}>
+            <div key={product.id} className={`flex justify-between items-stretch ${index === 0 ? 'border' : 'border-x border-b'}  min-w-[650px]`}>
               <div className="relative h-[150px] w-[150px] border-r">
                 <Image src={product.thumbnail} alt={product.title} fill className="object-contain" /> 
               </div>
-              <div className="flex flex-col justify-center">
-                <div className="flex justify-between mb-2">
+              <div className="flex flex-col justify-center max-md:px-4">
+                <div className="flex justify-between max-md:gap-4 mb-2">
                   <h3 className="text-xl line-clamp-2 max-w-[230px]">{product.title}</h3>
                   <p>Category: {product.category}</p>
                 </div>

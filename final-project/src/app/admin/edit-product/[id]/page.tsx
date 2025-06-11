@@ -101,8 +101,8 @@ const EditProduct = ({ params }: Props) => {
   }, [])
   
   return (
-    <div className="flex flex-col justify-center items-center w-full min-h-screen p-10">
-      <div className="flex flex-col justify-center items-center p-8 w-2/3 bg-white dark:bg-neutral-800">
+    <div className="flex flex-col justify-center items-center w-full min-h-screen md:p-10 p-4">
+      <div className="flex flex-col justify-center items-center md:p-8 p-4 md:w-2/3 w-full bg-white dark:bg-neutral-800 mt-20">
         <h1 className="text-xl mb-4">Edit Product</h1>
         <form onSubmit={handleSubmit} className="flex flex-col w-full gap-4">
           <div className="flex flex-col">

@@ -88,7 +88,7 @@ const AddProduct = () => {
   
   return (
     <div className="w-full min-h-screen flex justify-center items-center p-10">
-      <div className="flex flex-col justify-center items-center p-6 w-2/3 bg-white dark:bg-neutral-800">
+      <div className="flex flex-col justify-center items-center p-6 w-2/3 bg-white dark:bg-neutral-800 mt-20">
         <h1 className="text-xl">Add Product</h1>
         <form onSubmit={handleSubmit} className="flex flex-col w-full rounded-lg p-8 gap-4">
           <div className="flex flex-col">
