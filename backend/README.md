@@ -1,9 +1,5 @@
 # Backend API
 
-This document describes the available endpoints for the Express based API located in this directory.
-
-All endpoints respond with JSON and return appropriate HTTP status codes.
-
 ## User
 
 ### `GET /user/`
@@ -447,5 +443,5 @@ Get order information after payment.
 ```
 
 ### `POST /webhook`
-Stripe webhook endpoint used internally. The request body must be raw JSON and signed by Stripe.
+Stripe webhook endpoint.
 
