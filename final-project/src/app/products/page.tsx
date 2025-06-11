@@ -1,0 +1,14 @@
+import ProductList from "@/components/ProductList";
+
+const page = () => {
+  return (
+    <main className="px-4 lg:px-20 py-18 bg-neutral-200 dark:bg-neutral-800">
+      <h2 className="dark:text-whitetext-3xl text-balance md:text-2xl lg:text-2xl font-bold pb-5">
+        Mens Shirts <span className="text-neutral-500 text-xl">(5)</span>
+      </h2>
+      <ProductList category="mens-shirts" />
+    </main>
+  );
+};
+
+export default page;
