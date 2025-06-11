@@ -3,10 +3,12 @@
 import type { DummyProduct } from "@/types/product.types"
 import Link from "next/link"
 import Image from "next/image"
-import { useEffect, useState } from "react"
+import { ChangeEvent, useEffect, useState } from "react"
+import { Search } from 'lucide-react'
 
 const AdminProducts = () => {
   const [products, setProducts] = useState<DummyProduct[]>([])
+  const [searchInput, setSearchInput] = useState<string>('')
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -35,19 +37,33 @@ const AdminProducts = () => {
     "womens-watches"
   ]
 
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearchInput(e.target.value);
+  }
+
+  const handleDelete = (id: number) => {
+    setProducts(state => state.filter(p => p.id !== id))
+    alert('Product deleted successfully')
+  }
 
   return (
-    <div className="flex flex-col w-full items-end">
+    <div className="flex flex-col w-full items-center">
       <div className="m-6 w-3/4">
-        <div className="text-center mb-10 w-full flex  items-center justify-end gap-4">
+        <div className="text-center mb-10 w-full flex items-center gap-4">
+          <div>
+            <form method='GET' action='/products' className='flex justify-center items-center md:mt-4'>
+              <input type="text" value={searchInput} name='search' onChange={handleChange} placeholder='Search...' className='shadow-[0_0_1px] rounded-3xl w-full py-2 pl-4 pr-9' />
+              <button className='-translate-x-8 cursor-pointer'><Search /></button>
+            </form>
+          </div>
           <div className="w-full flex-1">
             <h1 className="text-2xl">Products</h1>
           </div>
           <Link href='/admin/add-product' className="shadow-[0_0_1px] rounded-lg px-4 py-3 mr-10 hover:bg-gray-100 transition w-32">Add Product</Link>
         </div>
         <div className="w-full">
-          {products.map((product: DummyProduct) => (
-            <div key={product.id} className={`flex justify-between items-stretch ${product.id === 1 ? 'border' : 'border-x border-b'}`}>
+          {products.map((product: DummyProduct, index: number) => (
+            <div key={product.id} className={`flex justify-between items-stretch ${index === 0 ? 'border' : 'border-x border-b'}`}>
               <div className="relative h-[150px] w-[150px] border-r">
                 <Image src={product.thumbnail} alt={product.title} fill className="object-contain" /> 
               </div>
@@ -71,7 +87,7 @@ const AdminProducts = () => {
                   </Link>
                 </div>
                 <div className="flex items-center px-4">
-                  <button className="border rounded-lg py-2 px-4 bg-red-500 text-black hover:bg-red-400/70 transition">Delete</button>
+                  <button className="border rounded-lg py-2 px-4 bg-red-500 text-black hover:bg-red-400/70 transition" onClick={() => handleDelete(product.id)}>Delete</button>
                 </div>
               </div>
             </div>
