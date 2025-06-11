@@ -72,7 +72,7 @@ const AdminProducts = () => {
                   <div className="relative h-[150px] w-[150px] border-r">
                     <Image src={product.mainImage} alt={product.productName} fill className="object-contain" /> 
                   </div>
-                  <div className="flex flex-col justify-center max-md:px-4">
+                  <div className="flex flex-col justify-center max-md:px-4 lg:min-w-[400px]">
                     <div className="flex justify-between max-md:gap-4 mb-2">
                       <h3 className="text-xl line-clamp-2 max-w-[230px]">{product.productName}</h3>
                       <p>Category: {product.category.categoryName}</p>

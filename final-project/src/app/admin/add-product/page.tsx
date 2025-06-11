@@ -1,36 +1,30 @@
 'use client'
 
 import { ChangeEvent, FormEvent, useEffect, useState } from "react"
-
-type Product = {
-  id: number,
-  title: string,
-  image: File | null,
-  description: string,
-  price: number,
-  category: string[],
-}
+import type { AddProduct } from "@/types/product.types"
+import { useRouter } from "next/navigation"
 
 const AddProduct = () => {
-  const [formInputs, setFormInputs] = useState<Omit<Product, 'id'>>({
-    title: '',
-    image: null,
-    description: '',
+  const [formInputs, setFormInputs] = useState<Omit<AddProduct, 'sku'>>({
+    productName: '',
+    categoryId: 0,
     price: 0,
-    category: []
+    mainImage: '',
+    description: '',
+    discountPercentage: 0,
+    rating: 0,
   })
-  const [products, setProducts] = useState<Product[]>([])
 
-  const categoriesList = [
-    'beauty',
-    'apparel',
-    'fragrances',
-    'gadget',
-    'kitchen',
-    'outdoors',
-    'furniture',
-    'books',
-    'groceries'
+  const categoryList = [
+    "mens-shirts",
+    "mens-shoes",
+    "mens-watches",
+    "tops",
+    "womens-bags",
+    "womens-dresses",
+    "womens-jewellery",
+    "womens-shoes",
+    "womens-watches"
   ]
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -42,49 +36,78 @@ const AddProduct = () => {
   }
 
   const handleImage = (e: ChangeEvent<HTMLInputElement>) => {
-    const {name, files} = e.target
-    setFormInputs(state => ({
-      ...state,
-      [name]: files?.[0] || null
-    }))
+    const file = e.target.files?.[0]
+    if (file) {
+      const imageUrl = URL.createObjectURL(file)
+      setFormInputs(state => ({
+        ...state,
+        mainImage: imageUrl
+      }))
+    }
   }
 
   const handleCategory = (e: ChangeEvent<HTMLInputElement>) => {
-    const {value, checked} = e.target
+    const {value} = e.target
     setFormInputs(state => ({
       ...state,
-      category: checked
-        ? [...state.category, value]
-        : state.category.filter((cat) => cat !== value)
+      categoryId: 1
     }))
   }
 
+  useEffect(() => {
+    console.log(formInputs)
+  }, [formInputs])
+
+  const router = useRouter()
+
   //replace with fetch request
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    const generateSku = () => {
+      return 'SKU-' + Math.floor(Math.random() * 1000000);
+    };
     const newProduct = {
       ...formInputs,
-      id: Math.floor(Math.random()*9000000) + 1000000
+      sku: generateSku()
     }
-    setProducts(prevState => ([
-      ...prevState,
-      newProduct
-    ]))
 
-    setFormInputs({
-      title: '',
-      image: null,
-      description: '',
-      price: 0,
-      category: []
-    })
+      try {
+        const res = await fetch('http://localhost:3000/product', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+          body: JSON.stringify(newProduct)
+        })
+
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+
+        const data = await res.json()
+        console.log('success:', data)
+      } catch(err) {
+        console.log('failed:', err)
+      }
+
+  
+
+
+    // setFormInputs({
+    //   productName: '',
+    //   categoryId: 0,
+    //   price: 0,
+    //   mainImage: '',
+    //   description: '',
+    //   discountPercentage: 0,
+    //   rating: 0,
+    // })
+
+    router.push('/admin/products')
 
     alert('prodcut added successfully')
   }
-
-  useEffect(() => {
-    console.log(products)
-  }, [products])
   
   return (
     <div className="w-full min-h-screen flex justify-center items-center p-10">
@@ -92,8 +115,8 @@ const AddProduct = () => {
         <h1 className="text-xl">Add Product</h1>
         <form onSubmit={handleSubmit} className="flex flex-col w-full rounded-lg p-8 gap-4">
           <div className="flex flex-col">
-            <label htmlFor="title">Product Title</label>
-            <input type="text" name="title" required placeholder="Enter product title..." value={formInputs.title} onChange={(e) => handleChange(e)} className="border p-3 rounded bg-white dark:bg-neutral-700 dark:border-neutral-600 text-black dark:text-white" />
+            <label htmlFor="productName">Product Name</label>
+            <input type="text" name="productName" required placeholder="Enter product title..." value={formInputs.productName} onChange={(e) => handleChange(e)} className="border p-3 rounded bg-white dark:bg-neutral-700 dark:border-neutral-600 text-black dark:text-white" />
           </div>
           <div className="flex flex-col">
             <label htmlFor="image">Product Image</label>
@@ -107,12 +130,20 @@ const AddProduct = () => {
             <label htmlFor="price">Product Price</label>
             <input type="number" name="price" required placeholder="Enter product price..." value={formInputs.price} onChange={(e) => handleChange(e)} className="border p-3 rounded bg-white dark:bg-neutral-700 dark:border-neutral-600 text-black dark:text-white" />
           </div>
+          <div className="flex flex-col">
+            <label htmlFor="discountPercentage">Discount Parcentage</label>
+            <input type="number" name="discountPercentage" required placeholder="Enter discount percentage..." value={formInputs.discountPercentage} onChange={(e) => handleChange(e)} className="border p-3 rounded bg-white dark:bg-neutral-700 dark:border-neutral-600 text-black dark:text-white" />
+          </div>
+          <div className="flex flex-col">
+            <label htmlFor="rating">Product Rating</label>
+            <input type="number" name="rating" required placeholder="Enter product rating..." value={formInputs.rating} onChange={(e) => handleChange(e)} className="border p-3 rounded bg-white dark:bg-neutral-700 dark:border-neutral-600 text-black dark:text-white" />
+          </div>
           <div>
             <h3>Product Category</h3>
             <div className="flex flex-col">
-              {categoriesList.map((cat, index) => (
+              {categoryList.map((cat, index) => (
                 <label key={index} className="pl-2">
-                  <input type="checkbox" value={cat} checked={formInputs.category?.includes(cat)} onChange={(e) => handleCategory(e)} />
+                  <input type="radio" name="category" value={cat} onChange={(e) => handleCategory(e)} />
                   <span>{cat}</span>
                 </label>
               ))}
