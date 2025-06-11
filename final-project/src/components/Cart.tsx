@@ -133,15 +133,24 @@ interface Props {
 
 const Cart = ({ isCartOpen, setIsCartOpen }: Props) => {
   return (
-    <div className="w-100 h-screen bg-white p-5 flex flex-col gap-3 overflow-auto">
-      <h2 className="text-xl font-semibold">My Cart (2)</h2>
+    <div className="custom-scrollbar w-full sm:w-[400px] h-screen bg-white dark:bg-neutral-900 px-5 pb-5 flex flex-col overflow-auto text-neutral-800 dark:text-neutral-200">
+      <h2 className="bg-white dark:bg-neutral-900 pt-3 sticky top-0 text-xl font-semibold dark:text-white pb-3">
+        My Cart (2)
+      </h2>
+      <button
+        onClick={() => setIsCartOpen(false)}
+        className="absolute top-3 self-end mb-4 text-neutral-500 hover:text-orange-500 dark:hover:text-yellow-400 transition-colors cursor-pointer"
+        aria-label="Close menu"
+      >
+        ✕
+      </button>
       {products.map((product) => (
         <CartItem key={product.id} thumbnail={product.thumbnail} />
       ))}
       <Link
         href="/checkout"
         onClick={() => setIsCartOpen(!isCartOpen)}
-        className="cursor-pointer text-center uppercase px-4 py-2 text-xs tracking-wide font-semibold bg-black text-white"
+        className="cursor-pointer text-center uppercase px-4 py-2 text-xs tracking-wide font-semibold bg-black text-white border dark:border-0"
       >
         View Order
       </Link>
