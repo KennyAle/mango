@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 type Product = {
@@ -13,6 +14,25 @@ type Product = {
 
 const ProductList = ({ category }: { category: string }) => {
   const [products, setProducts] = useState<Product[]>([]);
+  const getSpanForIndex = (index: number) => {
+    let currentIndex = 0;
+    let row = 0;
+
+    while (currentIndex <= index) {
+      const isOddRow = row % 2 === 0; 
+      const span = isOddRow ? 3 : 2;
+      let remainingCols = 6;
+
+      while (remainingCols >= span) {
+        if (currentIndex === index) return span; 
+        remainingCols -= span;
+        currentIndex++;
+      }
+      row++;
+    }
+
+    return 2;
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,19 +47,13 @@ const ProductList = ({ category }: { category: string }) => {
   }, [category]);
 
   return (
-    <div
-      className="grid gap-1.5"
-      style={{
-        gridTemplateColumns: "repeat(6, 1fr)",
-        gridAutoRows: "auto",
-      }}
-    >
+    <div className="grid gap-1.5 grid-cols-1 md:grid-cols-6 auto-rows-auto">
       {products.map((item, index) => {
-        const span = index < 2 ? 3 : 2;
+        const span = getSpanForIndex(index);
         return (
           <div
             key={item.id}
-            className="bg-white dark:bg-neutral-800 rounded-lg p-4 shadow"
+            className="bg-white dark:bg-neutral-800 rounded-lg p-4"
             style={{ gridColumn: `span ${span}` }}
           >
             <Image
@@ -49,12 +63,11 @@ const ProductList = ({ category }: { category: string }) => {
               height={200}
               className="rounded mb-3 w-full object-contain h-[200px] bg-neutral-200"
             />
-
             <div className="flex items-stretch justify-between gap-4">
               <div className="flex flex-col justify-center w-4/7 overflow-hidden">
-                <p className="truncate font-semibold text-black dark:text-white text-sm">
+                <Link href="/products/details" className="truncate font-semibold text-black dark:text-white text-sm">
                   {item.title}
-                </p>
+                </Link>
                 <p className="truncate text-xs text-gray-600 dark:text-gray-300 min-h-[1rem]">
                   {item.brand || "\u00A0"}
                 </p>
