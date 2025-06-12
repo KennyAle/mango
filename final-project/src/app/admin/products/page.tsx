@@ -3,7 +3,7 @@
 import type { Product } from "@/types/product.types"
 import Link from "next/link"
 import Image from "next/image"
-import { ChangeEvent, useEffect, useState } from "react"
+import { ChangeEvent, FormEvent, useEffect, useState } from "react"
 import { Search } from 'lucide-react'
 
 const AdminProducts = () => {
@@ -41,11 +41,42 @@ const AdminProducts = () => {
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchInput(e.target.value);
+    console.log(searchInput)
   }
 
-  const handleDelete = (id: number) => {
-    setProducts(state => state.filter(p => p.id !== id))
-    alert('Product deleted successfully')
+  const handleSearch = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    try {
+      const res = await fetch(`http://localhost:3000/product/search/${searchInput}`)
+      const data = await res.json()
+      console.log('success:', data)
+      setProducts([data])
+    } catch(err) {
+      console.log('failed', err)
+    }
+  }
+
+  const handleDelete = async(id: number) => {
+    try {
+      const res = await fetch(`http://localhost:3000/product/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      })
+
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`)
+      }
+
+      const data = await res.json()
+      console.log('success:', data)
+      setProducts(state => state.filter(p => p.id !== id))
+      alert('Product deleted successfully')
+    } catch(err) {
+      console.log('failed:', err)
+    }
   }
 
   return (
@@ -53,7 +84,7 @@ const AdminProducts = () => {
       <div className="m-6 md:w-3/4 w-full md:p-0 p-8 mt-20">
         <div className="text-center mb-10 w-full flex items-center gap-4 ">
           <div>
-            <form method='GET' action='/products' className='flex justify-center items-center md:mt-4'>
+            <form onSubmit={e => handleSearch(e)} className='flex justify-center items-center md:mt-4'>
               <input type="text" value={searchInput} name='search' onChange={handleChange} placeholder='Search...' className='shadow-[0_0_1px] rounded-3xl w-full py-2 pl-4 pr-9' />
               <button className='-translate-x-8 cursor-pointer'><Search /></button>
             </form>
@@ -61,7 +92,7 @@ const AdminProducts = () => {
           <div className="w-full flex-1">
             <h1 className="text-2xl">Products</h1>
           </div>
-          <Link href='/admin/add-product' className="shadow-[0_0_1px] rounded-lg px-4 py-3 mr-10 hover:bg-gray-100 transition w-32">Add Product</Link>
+          <Link href='/admin/add-product' className="shadow-[0_0_1px] rounded-lg px-4 py-3 mr-10 hover:bg-neutral-800 transition w-32">Add Product</Link>
         </div>
         <div className="w-full overflow-scroll custom-scrollbar">
           {products.length === 0 ? (
@@ -83,16 +114,16 @@ const AdminProducts = () => {
                   <div className="flex justify-center">
                     <div className="flex items-center border-l px-4">
                       <Link href={`/admin/products/${product.id}`}>
-                        <button className="border rounded-lg py-2 px-4 cursor-pointer hover:bg-gray-200 transition">Detail</button>
+                        <button className="border rounded-lg py-2 px-4 cursor-pointer hover:bg-neutral-800 transition">Detail</button>
                       </Link>
                     </div>
                     <div className="flex items-center border-x px-4">
                       <Link href={`/admin/edit-product/${product.id}`}>
-                        <button className="border rounded-lg py-2 px-4 hover:bg-gray-200 transition">Edit</button>
+                        <button className="border rounded-lg py-2 px-4 cursor-pointer hover:bg-neutral-800 transition">Edit</button>
                       </Link>
                     </div>
                     <div className="flex items-center px-4">
-                      <button className="border rounded-lg py-2 px-4 bg-red-500 text-black hover:bg-red-400/70 transition" onClick={() => handleDelete(product.id)}>Delete</button>
+                      <button className="border rounded-lg py-2 px-4 bg-red-500 text-black hover:bg-red-300 transition" onClick={() => handleDelete(product.id)}>Delete</button>
                     </div>
                   </div>
                 </div>
