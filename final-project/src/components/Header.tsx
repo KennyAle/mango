@@ -172,13 +172,13 @@ const Header = () => {
               exit={{ x: "-100%" }}
               transition={{ type: "tween", duration: 0.3 }}
             >
-              <Cart />
+              <Cart isCartOpen={isCartOpen} setIsCartOpen={setIsCartOpen} />
             </motion.aside>
           )}
         </AnimatePresence>
       )}
 
-      <header className="w-full flex justify-between items-center gap-2 px-4 md:px-10 lg:px-20 py-3 md:py-3 text-xl text-gray-800 bg-neutral-200 dark:bg-neutral-800/80 dark:text-gray-100 fixed z-30">
+      <header className="w-full flex justify-between items-center gap-2 px-4 md:px-10 lg:px-20 py-3 md:py-3 text-xl text-gray-800 bg-neutral-200 dark:bg-neutral-800 dark:text-gray-100 fixed z-30">
         <Link
           href="/"
           className={`text-2xl font-semibold transition-opacity duration-300 ${
@@ -215,7 +215,7 @@ const Header = () => {
           />
           <button
             onClick={() => setShowSearch((prev) => !prev)}
-            className="hover:text-orange-500 dark:hover:text-yellow-400 transition-colors duration-200"
+            className="cursor-pointer hover:text-orange-500 dark:hover:text-yellow-400 transition-colors duration-200"
             aria-label="Toggle search input"
           >
             <BiSearch />

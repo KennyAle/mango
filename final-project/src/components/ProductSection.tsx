@@ -22,7 +22,7 @@ const ProductSection = () => {
       <h2 className="dark:text-whitetext-3xl text-balance md:text-4xl lg:text-5xl text-center font-bold pb-5">
         Our Featured Products
       </h2>
-      <div className="flex justify-between flex-wrap gap-3 pb-5">
+      <div className="flex flex-wrap gap-3 pb-5">
         {categories.map((cat) => (
           <button
             key={cat}

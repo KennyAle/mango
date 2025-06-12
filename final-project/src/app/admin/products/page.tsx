@@ -1,0 +1,139 @@
+'use client'
+
+import type { Product } from "@/types/product.types"
+import Link from "next/link"
+import Image from "next/image"
+import { ChangeEvent, FormEvent, useEffect, useState } from "react"
+import { Search } from 'lucide-react'
+
+const AdminProducts = () => {
+  const [products, setProducts] = useState<Product[]>([])
+  const [searchInput, setSearchInput] = useState<string>('')
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await fetch('http://localhost:3000/product')
+        const data = await res.json()
+        setProducts(data)
+        console.log('fetched products:', data)
+      } catch (err) {
+        console.log(err)
+      }
+    }
+
+    fetchProducts()
+    console.log(products)
+  }, [])
+
+
+  const CategoryList = [
+    "mens-shirts",
+    "mens-shoes",
+    "mens-watches",
+    "tops",
+    "womens-bags",
+    "womens-dresses",
+    "womens-jewellery",
+    "womens-shoes",
+    "womens-watches"
+  ]
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearchInput(e.target.value);
+    console.log(searchInput)
+  }
+
+  const handleSearch = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    try {
+      const res = await fetch(`http://localhost:3000/product/search/${searchInput}`)
+      const data = await res.json()
+      console.log('success:', data)
+      setProducts([data])
+    } catch(err) {
+      console.log('failed', err)
+    }
+  }
+
+  const handleDelete = async(id: number) => {
+    try {
+      const res = await fetch(`http://localhost:3000/product/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      })
+
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`)
+      }
+
+      const data = await res.json()
+      console.log('success:', data)
+      setProducts(state => state.filter(p => p.id !== id))
+      alert('Product deleted successfully')
+    } catch(err) {
+      console.log('failed:', err)
+    }
+  }
+
+  return (
+    <div className="flex flex-col w-full items-center">
+      <div className="m-6 md:w-3/4 w-full md:p-0 p-8 mt-20">
+        <div className="text-center mb-10 w-full flex items-center gap-4 ">
+          <div>
+            <form onSubmit={e => handleSearch(e)} className='flex justify-center items-center md:mt-4'>
+              <input type="text" value={searchInput} name='search' onChange={handleChange} placeholder='Search...' className='shadow-[0_0_1px] rounded-3xl w-full py-2 pl-4 pr-9' />
+              <button className='-translate-x-8 cursor-pointer'><Search /></button>
+            </form>
+          </div>
+          <div className="w-full flex-1">
+            <h1 className="text-2xl">Products</h1>
+          </div>
+          <Link href='/admin/add-product' className="shadow-[0_0_1px] rounded-lg px-4 py-3 mr-10 hover:bg-neutral-800 transition w-32">Add Product</Link>
+        </div>
+        <div className="w-full overflow-scroll custom-scrollbar">
+          {products.length === 0 ? (
+              <p>Loading products...</p>
+            ) : (
+              products.map((product: Product, index: number) => (
+                <div key={product.id} className={`flex justify-between items-stretch ${index === 0 ? 'border' : 'border-x border-b'}  min-w-[650px]`}>
+                  <div className="relative h-[150px] w-[150px] border-r">
+                    <Image src={product.mainImage} alt={product.productName} fill className="object-contain" /> 
+                  </div>
+                  <div className="flex flex-col justify-center max-md:px-4 lg:min-w-[400px]">
+                    <div className="flex justify-between max-md:gap-4 mb-2">
+                      <h3 className="text-xl line-clamp-2 max-w-[230px]">{product.productName}</h3>
+                      <p>Category: {product.category.categoryName}</p>
+                    </div>
+                    <p className="max-w-[400px] line-clamp-2 mb-4 text-sm">{product.description}</p>
+                    <p className="text-lg">Price: ${product.price}</p>
+                  </div>
+                  <div className="flex justify-center">
+                    <div className="flex items-center border-l px-4">
+                      <Link href={`/admin/products/${product.id}`}>
+                        <button className="border rounded-lg py-2 px-4 cursor-pointer hover:bg-neutral-800 transition">Detail</button>
+                      </Link>
+                    </div>
+                    <div className="flex items-center border-x px-4">
+                      <Link href={`/admin/edit-product/${product.id}`}>
+                        <button className="border rounded-lg py-2 px-4 cursor-pointer hover:bg-neutral-800 transition">Edit</button>
+                      </Link>
+                    </div>
+                    <div className="flex items-center px-4">
+                      <button className="border rounded-lg py-2 px-4 bg-red-500 text-black hover:bg-red-300 transition" onClick={() => handleDelete(product.id)}>Delete</button>
+                    </div>
+                  </div>
+                </div>
+              ))
+            )
+          }
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default AdminProducts
