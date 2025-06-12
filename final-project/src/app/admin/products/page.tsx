@@ -5,6 +5,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { ChangeEvent, FormEvent, useEffect, useState } from "react"
 import { Search } from 'lucide-react'
+import toast from "react-hot-toast"
 
 const AdminProducts = () => {
   const [products, setProducts] = useState<Product[]>([])
@@ -57,25 +58,31 @@ const AdminProducts = () => {
   }
 
   const handleDelete = async(id: number) => {
-    try {
-      const res = await fetch(`http://localhost:3000/product/${id}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-      })
+    const result = confirm('Are you sure you want to delete this product?')
+    if (result) {
+      try {
+        const res = await fetch(`http://localhost:3000/product/${id}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+        })
 
-      if (!res.ok) {
-        throw new Error(`HTTP error! status: ${res.status}`)
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`)
+        }
+
+        const data = await res.json()
+        console.log('success:', data)
+        setProducts(state => state.filter(p => p.id !== id))
+        toast.success('Product deleted successfully')
+      } catch(err) {
+        console.log('failed:', err)
       }
-
-      const data = await res.json()
-      console.log('success:', data)
-      setProducts(state => state.filter(p => p.id !== id))
-      alert('Product deleted successfully')
-    } catch(err) {
-      console.log('failed:', err)
+    } else {
+      toast.error('Failed deleting product')
+      return 
     }
   }
 
@@ -92,7 +99,7 @@ const AdminProducts = () => {
           <div className="w-full flex-1">
             <h1 className="text-2xl">Products</h1>
           </div>
-          <Link href='/admin/add-product' className="shadow-[0_0_1px] rounded-lg px-4 py-3 mr-10 hover:bg-neutral-800 transition w-32">Add Product</Link>
+          <Link href='/admin/add-product' className="shadow-[0_0_1px] rounded-lg px-4 py-3 mr-10 hover:bg-gray-200 dark:hover:bg-neutral-800 transition w-32">Add Product</Link>
         </div>
         <div className="w-full overflow-scroll custom-scrollbar">
           {products.length === 0 ? (
@@ -114,16 +121,16 @@ const AdminProducts = () => {
                   <div className="flex justify-center">
                     <div className="flex items-center border-l px-4">
                       <Link href={`/admin/products/${product.id}`}>
-                        <button className="border rounded-lg py-2 px-4 cursor-pointer hover:bg-neutral-800 transition">Detail</button>
+                        <button className="border rounded-lg py-2 px-4 cursor-pointer hover:bg-gray-200 dark:hover:bg-neutral-800 transition">Detail</button>
                       </Link>
                     </div>
                     <div className="flex items-center border-x px-4">
                       <Link href={`/admin/edit-product/${product.id}`}>
-                        <button className="border rounded-lg py-2 px-4 cursor-pointer hover:bg-neutral-800 transition">Edit</button>
+                        <button className="border rounded-lg py-2 px-4 cursor-pointer hover:bg-gray-200 dark:hover:bg-neutral-800 transition">Edit</button>
                       </Link>
                     </div>
                     <div className="flex items-center px-4">
-                      <button className="border rounded-lg py-2 px-4 bg-red-500 text-black hover:bg-red-300 transition" onClick={() => handleDelete(product.id)}>Delete</button>
+                      <button className="border rounded-lg py-2 px-4 bg-red-500 text-black hover:bg-red-700 dark:hover:bg-red-300 transition" onClick={() => handleDelete(product.id)}>Delete</button>
                     </div>
                   </div>
                 </div>
