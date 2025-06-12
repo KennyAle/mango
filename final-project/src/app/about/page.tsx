@@ -2,42 +2,49 @@
 
 import Mediasearch from "@/components/Mediasearch"
 import { motion } from "framer-motion";
+import { useState } from "react";
+import { Autoplay, Pagination } from "swiper/modules";
+import {Swiper, SwiperSlide } from "swiper/react";
+import 'swiper/css';
+import 'swiper/css/pagination';
 
 const brands = [
-  { name: 'ZARA', logo: '/img_aboutpage/ana.png'},
-  { name: 'Uniqlo', logo: '/img_aboutpage/charlott.png'},
-  { name: 'Rolex', logo: '/img_aboutpage/inglot.png'},
-  { name: 'Casio', logo: '/img_aboutpage/kry.png'},
-  { name: 'Uniqlo', logo: '/img_aboutpage/lancome.png'},
-  { name: 'Uniqlo', logo: '/img_aboutpage/laura.png'},
-  { name: 'Uniqlo', logo: '/img_aboutpage/mac.png'},
-  { name: 'Uniqlo', logo: '/img_aboutpage/tarte.png'},
+  { name: 'ZARA', logo: '/img_aboutpage/ana.png' },
+  { name: 'Uniqlo', logo: '/img_aboutpage/charlott.png' },
+  { name: 'Rolex', logo: '/img_aboutpage/inglot.png' },
+  { name: 'Casio', logo: '/img_aboutpage/kry.png' },
+  { name: 'Uniqlo', logo: '/img_aboutpage/lancome.png' },
+  { name: 'Uniqlo', logo: '/img_aboutpage/laura.png' },
+  { name: 'Uniqlo', logo: '/img_aboutpage/mac.png' },
+  { name: 'Uniqlo', logo: '/img_aboutpage/tarte.png' },
 ];
 
-  const members = [
-    { name: "Julia", role: "Snack Hunter", img: "/faces/julia.png" },
-    { name: "Kenny", role: "Visual Dominion", img: "/faces/kenny.png" },
-    { name: "Mizuki", role: "Mission Accomplisher", img: "/faces/mizuki.png" },
-    { name: "Alana", role: "Unexpected Action", img: "/faces/alana.png" },
-    { name: "Tomoya", role: "Silent Force", img: "/faces/tomoya.png" },
-  ];
+const members = [
+  { name: "Julia", role: "Snack Hunter", img: "/faces/julia.png" },
+  { name: "Kenny", role: "Visual Dominion", img: "/faces/kenny.png" },
+  { name: "Mizuki", role: "Mission Accomplisher", img: "/faces/mizuki.png" },
+  { name: "Alana", role: "Unexpected Action", img: "/faces/alana.png" },
+  { name: "Tomoya", role: "Silent Force", img: "/faces/tomoya.png" },
+];
 
 const page = () => {
+  const [slideIndex, setSlideIndex] = useState(0)
+
   return (
     <div className="relative top-28 flex flex-col justify-center items-center">
-      <section className="flex justify-center items-center w-10/12">
+      <section className="flex justify-center items-center w-10/12 p-10">
         <div className="flex-1 flex flex-col gap-3 w-full">
-          <h1 className="text-4xl font-semibold">Fuel Your <span className="text-4xl font-semibold bg-gradient-to-r from-stone-800 via-stone-400 to-gray-400 bg-clip-text text-transparent ">Fabuluxe</span></h1>
+          <h1 className="text-4xl font-semibold">Fuel Your Fabuluxe</h1>
           <h1 className="text-3xl font-semibold">Where fashion meets authenticity</h1>
           <p>Founded with a passion for individuality and self-expression, MANGO is here to make fashion simple, fun, and accessible. Whether you're dressing up for a big night out or curating your everyday essentials, we’ve got you covered.</p>
-          <button className="bg-black hover:bg-gray-600 text-white rounded-full px-4 py-1 text-xs font-semibold w-fit transition cursor-pointer">Get Started</button>
+          <button className="bg-stone-800 hover:bg-gray-600 px-4 py-2 text-xs font-semibold w-fit transition cursor-pointer">Get Started</button>
         </div>
-        <div className="flex-1 flex justify-center items-center">
-          <img className="rounded-2xl" src="https://placehold.jp/500x300.png" alt="" />
+        <div className="relative flex-1 flex justify-center items-center">
+          <img className="relative left-6 rounded-2xl" src="https://www.liveabout.com/thmb/YEaeCc5sLIe6KRQjKfodkTI84Yo=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/GettyImages-487149250-58c71e5b3df78c353c0577eb.jpg" alt="" />
         </div>
       </section>
 
-      <section className="relative py-30">
+      <section className="relative py-10 bg-neutral-400/70 w-full">
         <div className="relative grid grid-rows-2 grid-flow-col gap-8 items-center justify-center">
           {[...brands, ...brands].map((brand, index) => (
             <motion.div key={index} className="flex justify-center items-center gap-3"
@@ -50,34 +57,64 @@ const page = () => {
         </div>
       </section>
 
-      <section className="flex justify-center items-center w-8/12">
-        <p className="text-2xl text-gray-600 font-bold text-center">Experience the epitome of style and elegance with our curated collection of fashion and beauty essentials. From sophisticated apparel to luxurious skincare and cosmetics, our boutique offers everything you desire to elevate your wardrobe and enhance your natural allure.</p>
+      <section className="flex justify-center items-center">
+        <p className="w-8/12 h-full text-2xl font-bold text-center py-15">Experience the epitome of style and elegance with our curated collection of fashion and beauty essentials. From sophisticated apparel to luxurious skincare and cosmetics, our boutique offers everything you desire to elevate your wardrobe and enhance your natural allure.</p>
       </section>
 
-      <section className="w-full m-30"><Mediasearch /></section>
+      <section className="w-full py-20"><Mediasearch /></section>
 
-      <section className="py-12 px-6 max-w-6xl mx-auto">
-      <h1 className="text-4xl font-semibold text-center mb-12">
-        The Faces of <span className="text-gray-400">Innovation</span>
-      </h1>
+      <section className="w-full py-12 px-6">
+        <h1 className="text-4xl font-semibold text-center mb-12">
+          The Faces of <span className="text-gray-400">Innovation</span>
+        </h1>
 
-      <div className="flex flex-wrap justify-center items-stretch gap-8">
-        {members.map(({ name, role, img }) => (
-          <div
-            key={name}
-            className="bg-gray-200/60 dark:bg-gray-200/60 rounded-2xl shadow-lg flex flex-col items-center p-6 max-w-xs w-full"
-          >
-            <img
-              src={img}
-              alt={`${name} - ${role}`}
-              className="w-48 h-56 object-cover object-center mb-4"
-            />
-            <h2 className="text-2xl font-semibold mb-1">{name}</h2>
-            <p className="text-gray-700 text-center text-lg">{role}</p>
-          </div>
+        <div className="w-full mb-10">
+          <Swiper
+            modules={[Pagination, Autoplay]}
+            spaceBetween={10}
+            slidesPerView={3}
+            navigation
+            pagination={{ clickable: true}}
+            loop={true}
+            onSlideChange={(swiper) => {
+              setSlideIndex(swiper.realIndex)
+            }}
+            className='relative'
+      >
+        { members.map((slide, index) => (
+            <SwiperSlide className='rounded-lg' key={index}>
+                <div className={`p-6 rounded-lg shadow-md h-80 sm:h-64 md:h-72 flex flex-col justify-center items-center text-center gap-3 overflow-hidden ${slideIndex === index ? "bg-stone-400 text-black":"bg-stone-700/80 text-black"}`}>
+                    <img src={slide.img} alt={slide.name} className="rounded-full w-50 h-50 "/>
+                    <h1 className="font-semibold text-lg text-center">{slide.name}</h1>
+                    <p className="text-sm max-w-xs sm:max-w-md md:max-w-lg w-full px-2">{slide.role}</p>
+                </div>
+            </SwiperSlide>
         ))}
-      </div>
-    </section>
+      </Swiper>
+
+       <style jsx global>{`
+        .swiper-pagination {
+          position: relative;
+          margin-top: 1.5rem;
+          display: flex;
+          justify-content: center;
+          gap: 0.5rem;
+        }
+        .swiper-pagination-bullet {
+          width: 4px;
+          height: 4px;
+          background: #a8a29e;
+          opacity: 1;
+          border-radius: 9999px;
+          transition: background 0.3s;
+        }
+        .swiper-pagination-bullet-active {
+          background: #fff;
+        }
+      `}</style>
+    </div>
+
+      </section>
     </div>
   )
 }
