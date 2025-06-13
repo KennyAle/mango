@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ProductList from "./ProductList";
 import Link from "next/link";
 
@@ -16,6 +16,17 @@ const categories = [
 
 const ProductSection = () => {
   const [selectedCategory, setSelectedCategory] = useState("mens-shirts");
+  const [products, setProducts] = useState([])
+
+  const getProducts = async () => {
+      const res = await fetch(`http://localhost:5173/api/categories/1`);
+      const data = await res.json();
+      setProducts(data);
+    };
+  
+    useEffect(() => {
+      getProducts();
+    }, []);
 
   return (
     <div className="flex flex-col px-4 lg:px-20 pt-15 space-y-6 w-full">
@@ -43,9 +54,9 @@ const ProductSection = () => {
           See All
         </Link>
       </div>
-      <ProductList category={selectedCategory} />
+      <ProductList products={products} />
       <Link
-        href="/"
+        href="/products"
         className="cursor-pointer m-auto uppercase px-4 py-2 text-xs tracking-wide font-semibold bg-black text-white"
       >
         See All
