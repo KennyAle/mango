@@ -2,9 +2,54 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
+import { NewUser, newUser } from "../actions/user.actions";
+import { useRouter } from "next/navigation";
+import { useSession } from "@/contexts/session.context";
+import toast from "react-hot-toast";
+import { FaFacebookF, FaGoogle } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
+import { GiClothes } from "react-icons/gi";
 
 const Page = () => {
+  const router = useRouter();
+  const { login } = useSession();
   const [isSignup, setIsSignup] = useState(false);
+
+  const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = new FormData(e.currentTarget);
+    const userInfo: NewUser = {
+      firstName: form.get("firstName") as string,
+      lastName: form.get("lastName") as string,
+      email: form.get("email") as string,
+      password: form.get("password") as string,
+      role: form.get("role") as string,
+    };
+
+    try {
+      const res = await newUser(userInfo);
+      toast.success("Account created successfully!");
+      setIsSignup(false);
+    } catch (error) {
+      toast.error("Failed to create account")
+    }
+  };
+
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = new FormData(e.currentTarget);
+    const email = form.get("email") as string;
+    const password = form.get("password") as string;
+
+    try {
+      await login(email, password);
+      router.push("/");
+      toast.success("Logged in successfully!");
+    } catch (err) {
+      console.error("Login error:", err);
+      toast.error("Login failed. Check your credentials.");
+    }
+  };
 
   const fadeSlide = {
     initial: { opacity: 0, y: 10 },
@@ -27,13 +72,26 @@ const Page = () => {
                     Sign up to get started with Mango
                   </p>
                 </div>
-                <form className="flex flex-col gap-5 w-full mt-4">
+                <form
+                  className="flex flex-col gap-5 w-full mt-4"
+                  onSubmit={handleSignup}
+                >
                   <label className="flex flex-col gap-1 text-sm text-black dark:text-white">
-                    Name
+                    First Name
                     <input
                       className="border p-3 rounded bg-white dark:bg-neutral-700 dark:border-neutral-600 text-black dark:text-white"
                       type="text"
-                      placeholder="Your name"
+                      placeholder="John"
+                      name="firstName"
+                    />
+                  </label>
+                  <label className="flex flex-col gap-1 text-sm text-black dark:text-white">
+                    Last Name
+                    <input
+                      className="border p-3 rounded bg-white dark:bg-neutral-700 dark:border-neutral-600 text-black dark:text-white"
+                      type="text"
+                      placeholder="Doe"
+                      name="lastName"
                     />
                   </label>
                   <label className="flex flex-col gap-1 text-sm text-black dark:text-white">
@@ -41,7 +99,8 @@ const Page = () => {
                     <input
                       className="border p-3 rounded bg-white dark:bg-neutral-700 dark:border-neutral-600 text-black dark:text-white"
                       type="email"
-                      placeholder="hello@gmail.com"
+                      placeholder="john@example.com"
+                      name="email"
                     />
                   </label>
                   <label className="flex flex-col gap-1 text-sm text-black dark:text-white">
@@ -50,15 +109,22 @@ const Page = () => {
                       className="border p-3 rounded bg-white dark:bg-neutral-700 dark:border-neutral-600 text-black dark:text-white"
                       type="password"
                       placeholder="••••••••"
+                      name="password"
                     />
                   </label>
                   <label className="flex flex-col gap-1 text-sm text-black dark:text-white">
-                    Phone Number
-                    <input
+                    Role
+                    <select
                       className="border p-3 rounded bg-white dark:bg-neutral-700 dark:border-neutral-600 text-black dark:text-white"
-                      type="tel"
-                      placeholder="+1 123 456 7890"
-                    />
+                      defaultValue=""
+                      name="role"
+                    >
+                      <option value="" disabled>
+                        Select role
+                      </option>
+                      <option value="customer">Customer</option>
+                      <option value="admin">Admin</option>
+                    </select>
                   </label>
                   <input
                     className="bg-black text-white text-sm p-3 uppercase cursor-pointer hover:opacity-90 transition"
@@ -86,12 +152,16 @@ const Page = () => {
                     Login to your Mango account
                   </p>
                 </div>
-                <form className="flex flex-col gap-5 w-full mt-4">
+                <form
+                  className="flex flex-col gap-5 w-full mt-4"
+                  onSubmit={handleLogin}
+                >
                   <label className="flex flex-col gap-1 text-sm text-black dark:text-white">
                     Email
                     <input
                       className="border p-3 rounded bg-white dark:bg-neutral-700 dark:border-neutral-600 text-black dark:text-white"
                       type="email"
+                      name="email"
                       placeholder="hello@gmail.com"
                     />
                   </label>
@@ -100,6 +170,7 @@ const Page = () => {
                     <input
                       className="border p-3 rounded bg-white dark:bg-neutral-700 dark:border-neutral-600 text-black dark:text-white"
                       type="password"
+                      name="password"
                       placeholder="••••••••"
                     />
                   </label>
@@ -115,27 +186,9 @@ const Page = () => {
                   <span className="flex-grow border-t border-gray-300 dark:border-neutral-600"></span>
                 </p>
                 <div className="flex justify-center gap-5 mt-2">
-                  <Image
-                    className="border border-gray-300 dark:border-neutral-600 rounded p-2 bg-white dark:bg-neutral-700"
-                    src="https://placehold.co/60x60"
-                    width={60}
-                    height={60}
-                    alt="logo"
-                  />
-                  <Image
-                    className="border border-gray-300 dark:border-neutral-600 rounded p-2 bg-white dark:bg-neutral-700"
-                    src="https://placehold.co/60x60"
-                    width={60}
-                    height={60}
-                    alt="logo"
-                  />
-                  <Image
-                    className="border border-gray-300 dark:border-neutral-600 rounded p-2 bg-white dark:bg-neutral-700"
-                    src="https://placehold.co/60x60"
-                    width={60}
-                    height={60}
-                    alt="logo"
-                  />
+                  <FaGoogle />
+                  <FaFacebookF />
+                  <FaXTwitter />
                 </div>
                 <p className="text-center text-sm text-gray-700 dark:text-gray-300 mt-4">
                   Don’t have an account?{" "}
@@ -151,18 +204,7 @@ const Page = () => {
           </AnimatePresence>
         </div>
         <div className="hidden md:block w-1/2">
-          <Image
-            className="w-full h-full object-cover"
-            src="https://placehold.co/500x500"
-            // src={
-            //   isSignup
-            //     ? "https://placehold.co/500x500?text=Signup+Image"
-            //     : "https://placehold.co/500x500?text=Login+Image"
-            // }
-            width={500}
-            height={500}
-            alt="Login"
-          />
+          <GiClothes className="w-full h-full" />
         </div>
       </div>
     </main>

@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
-import Footer from "./components/Footer";
 import { Toaster } from "react-hot-toast";
+import { SessionProvider } from "@/contexts/session.context";
+import { CartProvider } from "@/contexts/cart.context";
+import Footer from "./components/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -21,7 +23,8 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
-  children, modal
+  children,
+  modal,
 }: Readonly<{
   children: React.ReactNode;
   modal: React.ReactNode;
@@ -31,11 +34,15 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Toaster />
-        <Header />
-        {children}
-        <Footer />
-        {modal}
+        <SessionProvider>
+          <CartProvider>
+            <Toaster position="bottom-center" />
+            {modal}
+            <Header />
+            {children}
+            <Footer />
+          </CartProvider>
+        </SessionProvider>
       </body>
     </html>
   );

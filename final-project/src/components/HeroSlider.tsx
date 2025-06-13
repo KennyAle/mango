@@ -161,7 +161,7 @@ const HeroSlider = () => {
         {products.map((product) => (
           <SwiperSlide key={product.id}>
             <div className="bg-stone-400 text-white flex items-center justify-center aspect-[3/4]">
-              <Image src={product.thumbnail} alt={product.title} width={250} height={250} />
+              <Image className="h-auto w-auto" src={product.thumbnail} alt={product.title} width={250} height={250} />
             </div>
           </SwiperSlide>
         ))}
