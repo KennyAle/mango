@@ -6,6 +6,9 @@ import { NewUser, newUser } from "../actions/user.actions";
 import { useRouter } from "next/navigation";
 import { useSession } from "@/contexts/session.context";
 import toast from "react-hot-toast";
+import { FaFacebookF, FaGoogle } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
+import { GiClothes } from "react-icons/gi";
 
 const Page = () => {
   const router = useRouter();
@@ -183,27 +186,9 @@ const Page = () => {
                   <span className="flex-grow border-t border-gray-300 dark:border-neutral-600"></span>
                 </p>
                 <div className="flex justify-center gap-5 mt-2">
-                  <Image
-                    className="border border-gray-300 dark:border-neutral-600 rounded p-2 bg-white dark:bg-neutral-700"
-                    src="https://placehold.co/60x60"
-                    width={60}
-                    height={60}
-                    alt="logo"
-                  />
-                  <Image
-                    className="border border-gray-300 dark:border-neutral-600 rounded p-2 bg-white dark:bg-neutral-700"
-                    src="https://placehold.co/60x60"
-                    width={60}
-                    height={60}
-                    alt="logo"
-                  />
-                  <Image
-                    className="border border-gray-300 dark:border-neutral-600 rounded p-2 bg-white dark:bg-neutral-700"
-                    src="https://placehold.co/60x60"
-                    width={60}
-                    height={60}
-                    alt="logo"
-                  />
+                  <FaGoogle />
+                  <FaFacebookF />
+                  <FaXTwitter />
                 </div>
                 <p className="text-center text-sm text-gray-700 dark:text-gray-300 mt-4">
                   Don’t have an account?{" "}
@@ -219,18 +204,7 @@ const Page = () => {
           </AnimatePresence>
         </div>
         <div className="hidden md:block w-1/2">
-          <Image
-            className="w-full h-full object-cover"
-            src="https://placehold.co/500x500"
-            // src={
-            //   isSignup
-            //     ? "https://placehold.co/500x500?text=Signup+Image"
-            //     : "https://placehold.co/500x500?text=Login+Image"
-            // }
-            width={500}
-            height={500}
-            alt="Login"
-          />
+          <GiClothes className="w-full h-full" />
         </div>
       </div>
     </main>
