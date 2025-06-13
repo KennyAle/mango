@@ -4,6 +4,7 @@ import { useState, useEffect, ChangeEvent, FormEvent } from "react"
 import toast from "react-hot-toast"
 import { Category } from "@/types/category.types"
 import { useRouter } from "next/navigation"
+import AdminMenu from "@/components/AdminMenu"
 
 const CategoryList = () => {
   const [categories, setCategories] = useState<Category[]>([])
@@ -180,6 +181,7 @@ const CategoryList = () => {
   
   return (
     <div className="w-full min-h-screen">
+      <AdminMenu />
       <div className="w-full mb-10 pt-24 px-4 flex flex-col items-center">
         <div className="w-full">
           <button onClick={handleBack} className="hover:border-b cursor-pointer transition inline-flex items-center gap-2">

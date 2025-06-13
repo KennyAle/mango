@@ -6,6 +6,8 @@ import Image from "next/image"
 import { ChangeEvent, FormEvent, useEffect, useState } from "react"
 import { Search } from 'lucide-react'
 import toast from "react-hot-toast"
+import { Category } from "@/types/category.types"
+import AdminMenu from "@/components/AdminMenu"
 
 const AdminProducts = () => {
   const [products, setProducts] = useState<Product[]>([])
@@ -35,15 +37,28 @@ const AdminProducts = () => {
   const handleSearch = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     try {
-      const res = await fetch(`http://localhost:3000/product/search/${searchInput}`)
-      const data = await res.json()
-      console.log('success:', data)
-      setProducts([data])
-    } catch(err) {
-      console.log('failed', err)
+      const res = await fetch('http://localhost:3000/category')
+      const categoryData: Category[] = await res.json()
+      const categoryMatch = categoryData.find(c => c.categoryName.toLowerCase() === searchInput.toLowerCase())
+
+      if (categoryMatch) {
+        const res = await fetch(`http://localhost:3000/product/category/${categoryMatch.id}`)
+        const data = await res.json()
+        console.log('search by category: ', data)
+        setProducts(data)
+        return
+      }
+
+      const res2 = await fetch(`http://localhost:3000/product/search/${searchInput}`)
+      const data2 = await res2.json()
+      console.log('success:', data2)
+      setProducts([data2])
+    } catch (err) {
+      console.log('search failed:', err)
+      toast.error('Search failed, please try again')
     }
   }
-
+  
   const handleDelete = async(id: number) => {
     const result = confirm('Are you sure you want to delete this product?')
     if (result) {
@@ -89,9 +104,7 @@ const AdminProducts = () => {
           <div className="md:w-1/4 w-1/3">
             <Link href='/admin/add-product' className="shadow-[0_0_1px] rounded-4xl  md:px-6 px-4 py-3 hover:bg-gray-200 dark:hover:bg-neutral-800 transition w-22"><span className="max-md:text-2xl align-middle">+</span> <span className="max-md:hidden">New</span></Link>
           </div>
-          <div>
-            <Link href='/admin/category' className="shadow-[0_0_1px] rounded-4xl  md:px-6 px-4 py-3 hover:bg-gray-200 dark:hover:bg-neutral-800 transition w-22">Category</Link>
-          </div>
+          <AdminMenu />
         </div>
         <div className="w-full overflow-scroll custom-scrollbar">
           {products.length === 0 ? (

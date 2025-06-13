@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation"
 import toast from "react-hot-toast"
 import Image from "next/image"
 import { Category } from "@/types/category.types"
+import AdminMenu from "@/components/AdminMenu"
 
 const AddProduct = () => {
   //--------------------------------- state -----------------------------------------------
@@ -176,6 +177,7 @@ const AddProduct = () => {
   
   return (
     <div className="w-full min-h-screen flex justify-center items-center">
+      <AdminMenu />
       <div className="w-full flex flex-col justify-center items-center md:p-10 p-4">
         <div className="mt-14 mb-8 w-full">
           <button onClick={handleBack} className="hover:border-b cursor-pointer transition inline-flex items-center gap-2">

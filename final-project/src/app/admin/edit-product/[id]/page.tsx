@@ -5,6 +5,7 @@ import { AddProduct, Product } from "@/types/product.types"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
 import { Category } from "@/types/category.types"
+import AdminMenu from "@/components/AdminMenu"
 
 type Props = {
   params: Promise<{id: string}>
@@ -169,6 +170,7 @@ const EditProduct = ({ params }: Props) => {
   
   return (
     <div className="flex justify-center items-center w-full min-h-screen">
+      <AdminMenu />
       <div className="w-full flex flex-col justify-center items-center md:p-10 p-4">
         <div className="mt-14 mb-8 w-full">
           <button onClick={handleBack} className="hover:border-b cursor-pointer transition inline-flex items-center gap-2">

@@ -5,6 +5,7 @@ import Image from "next/image"
 import { useEffect, use, useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import AdminMenu from "@/components/AdminMenu"
 
 type Props = {
   params: Promise<{id: string}>
@@ -68,16 +69,17 @@ const ProductDetail = ({ params }: Props) => {
   
   return (
     <div className="min-h-screen">
+      <AdminMenu />
       <div className="flex flex-col justify-center items-center w-full">
         <div className="mt-20 w-full pl-10">
           <button onClick={handleBack} className="hover:border-b cursor-pointer transition inline-flex items-center gap-2">
-              <span className="mb-1">←</span>
+              <span>&lt;</span>
               <span className="text-md">Back</span>
           </button>
         </div>
-        <div className="flex justify-center w-3/4 mb-20">
+        <div className="flex justify-center items-center w-3/4 mb-20">
           {thisProduct.mainImage && (
-            <div className="relative w-[500px] h-[500px] mt-10">
+            <div className="relative w-[500px] h-[500px]">
               <Image src={thisProduct.mainImage} alt={thisProduct.mainImage} fill className="object-contain"/>
             </div>
           )}
