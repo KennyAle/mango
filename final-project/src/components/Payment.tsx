@@ -64,23 +64,8 @@ const Payment = ({ onClose, clientSecret }: ConfirmedProps) => {
               Enter Payment Details
             </h2>
             <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-              <div className="border border-black p-3 bg-white dark:bg-black">
-                <CardElement
-                  options={{
-                    style: {
-                      base: {
-                        fontSize: "16px",
-                        color: "#000",
-                        "::placeholder": {
-                          color: "#666",
-                        },
-                      },
-                      invalid: {
-                        color: "#f00",
-                      },
-                    },
-                  }}
-                />
+              <div className="p-3">
+                <CardElement />
               </div>
               <button
                 type="submit"
@@ -124,7 +109,7 @@ const Payment = ({ onClose, clientSecret }: ConfirmedProps) => {
             </h2>
             <p className="w-3/4 pt-1 text-gray-700 dark:text-gray-300 text-sm tracking-tight font-semibold">
               We have received your order. You'll get a confirmation email to{" "}
-              <span className="font-bold">letsgo@picnic.com</span>
+              <span className="font-bold">letspicnic@mango.com</span>
             </p>
             <button
               onClick={onClose}

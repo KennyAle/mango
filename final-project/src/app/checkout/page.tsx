@@ -1,6 +1,8 @@
 "use client";
 
 import CartItem from "@/components/CartItem";
+import Payment from "@/components/Payment";
+import StripeWrapper from "@/components/StripeWrapper";
 import { useCart } from "@/contexts/cart.context";
 import autoAnimate from "@formkit/auto-animate";
 import Link from "next/link";
@@ -25,6 +27,9 @@ const Page = () => {
   const [province, setProvince] = useState("");
   const [postalCode, setPostalCode] = useState("");
   const [country, setCountry] = useState("");
+  const [showPayment, setShowPayment] = useState(false);
+  const [clientSecret, setClientSecret] = useState("");
+  const cartId = cart?.id;
 
   const [shippingAddress, setShippingAddress] = useState("");
 
@@ -64,8 +69,55 @@ const Page = () => {
     }
   };
 
+  const handleCheckout = async () => {
+    if (!shippingAddress) {
+      toast.error("Please add a shipping address before checking out.");
+      return;
+    }
+
+    if (!cartId) {
+      toast.error("Missing cart ID.");
+      return;
+    }
+
+    try {
+      const res = await fetch(
+        "http://localhost:3000/payment/create-payment-intent",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({ cartId }),
+        }
+      );
+
+      const data = await res.json();
+
+      if (!res.ok || !data.clientSecret) {
+        throw new Error("Failed to create payment intent");
+      }
+
+      setClientSecret(data.clientSecret);
+      console.log(data.clientSecret)
+      setShowPayment(true);
+    } catch (error) {
+      console.error(error);
+      toast.error("Could not start checkout");
+    }
+  };
+
   return (
     <main className="flex flex-col md:flex-row py-12 gap-6 w-full bg-white dark:bg-black text-black dark:text-white px-4">
+      {showPayment && clientSecret && (
+        <StripeWrapper
+          clientSecret={clientSecret}
+          onClose={() => {
+            setShowPayment(false);
+            setClientSecret("");
+          }}
+        />
+      )}
+
       <section className="w-full md:w-4/6 bg-white dark:bg-neutral-900 p-5 flex flex-col gap-5 order-1 md:order-none">
         <div ref={parent} className="flex flex-col">
           <h2 className="text-xl font-semibold pb-3">
@@ -78,8 +130,8 @@ const Page = () => {
               quantity={item.quantity}
               total={item.subTotal}
               discount={item.discountedPrice}
-              increaseQuantity={() => increaseQuantity(item.id)}
-              decreaseQuantity={() => decreaseQuantity(item.id)}
+              increaseQuantity={() => increaseQuantity(item.product.id)}
+              decreaseQuantity={() => decreaseQuantity(item.product.id)}
               removeItem={() => removeFromCart(item.id)}
             />
           ))}
@@ -184,6 +236,12 @@ const Page = () => {
             Total:<span>${(totalAmount + 8.99).toFixed(2)}</span>
           </p>
 
+          <button
+            onClick={handleCheckout}
+            className="cursor-pointer text-center uppercase px-4 py-2 text-xs tracking-wide font-semibold bg-black dark:text-neutral-900 text-white dark:bg-white border dark:border-white"
+          >
+            Checkout
+          </button>
           <Link
             href="/"
             className="cursor-pointer text-center uppercase px-4 py-2 text-xs tracking-wide font-semibold bg-white dark:bg-neutral-900 text-black dark:text-white border dark:border-white"
