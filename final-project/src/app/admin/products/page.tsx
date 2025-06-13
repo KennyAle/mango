@@ -8,13 +8,16 @@ import { Search } from 'lucide-react'
 import toast from "react-hot-toast"
 import { Category } from "@/types/category.types"
 import AdminMenu from "@/components/AdminMenu"
+import Loading from "@/components/Loading"
 
 const AdminProducts = () => {
   const [products, setProducts] = useState<Product[]>([])
   const [searchInput, setSearchInput] = useState<string>('')
+  const [isLoading, setIsLoading] = useState<boolean>(true)
 
   useEffect(() => {
     const fetchProducts = async () => {
+      setIsLoading(true)
       try {
         const res = await fetch('http://localhost:3000/product')
         const data = await res.json()
@@ -22,6 +25,8 @@ const AdminProducts = () => {
         console.log('fetched products:', data)
       } catch (err) {
         console.log(err)
+      } finally {
+        setIsLoading(false)
       }
     }
 
@@ -36,6 +41,7 @@ const AdminProducts = () => {
 
   const handleSearch = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    setIsLoading(true)
     try {
       const res = await fetch('http://localhost:3000/category')
       const categoryData: Category[] = await res.json()
@@ -56,6 +62,8 @@ const AdminProducts = () => {
     } catch (err) {
       console.log('search failed:', err)
       toast.error('Search failed, please try again')
+    } finally {
+      setIsLoading(false)
     }
   }
   
@@ -107,40 +115,46 @@ const AdminProducts = () => {
           <AdminMenu />
         </div>
         <div className="w-full overflow-scroll custom-scrollbar">
-          {products.length === 0 ? (
-              <p>Loading products...</p>
+          {isLoading ? (
+
+            <div className="flex justify-center py-10">
+              <Loading />
+            </div>
             ) : (
-              products.map((product: Product, index: number) => (
-                <div key={product.id} className={`flex justify-between items-stretch ${index === 0 ? 'border' : 'border-x border-b'}  min-w-[650px]`}>
-                  <div className="relative h-[150px] w-[150px] border-r">
-                    <Image src={product.mainImage} alt={product.productName} fill className="object-contain" /> 
+              products.length > 0 ? (
+                products.map((product: Product, index: number) => (
+                  <div key={product.id} className={`flex justify-between items-stretch ${index === 0 ? 'border' : 'border-x border-b'}  min-w-[650px]`}>
+                    <div className="relative h-[150px] w-[150px] border-r">
+                      <Image src={product.mainImage} alt={product.productName} fill className="object-contain" /> 
+                    </div>
+                    <div className="flex flex-col justify-center max-md:px-4 lg:min-w-[400px] min-w-[250px]">
+                      <div className="flex justify-between max-md:gap-4 mb-2 max-h-[56px]">
+                        <h3 className="text-xl line-clamp-2 max-w-[230px]">{product.productName}</h3>
+                        <p>Category: {product.category.categoryName}</p>
+                      </div>
+                      <p className="max-w-[400px] line-clamp-2 mb-4 text-sm">{product.description}</p>
+                      <p className="text-lg">Price: ${product.price}</p>
+                    </div>
+                    <div className="flex justify-center">
+                      <div className="flex items-center border-l px-4">
+                        <Link href={`/admin/products/${product.id}`}>
+                          <button className="border rounded-lg py-2 px-4 cursor-pointer hover:bg-gray-200 dark:hover:bg-neutral-800 transition">Detail</button>
+                        </Link>
+                      </div>
+                      <div className="flex items-center border-x px-4">
+                        <Link href={`/admin/edit-product/${product.id}`}>
+                          <button className="border rounded-lg py-2 px-4 cursor-pointer hover:bg-gray-200 dark:hover:bg-neutral-800 transition">Edit</button>
+                        </Link>
+                      </div>
+                      <div className="flex items-center px-4">
+                        <button className="border rounded-lg py-2 px-4 bg-red-500 text-black hover:bg-red-700 dark:hover:bg-red-300 transition" onClick={() => handleDelete(product.id)}>Delete</button>
+                      </div>
+                    </div>
                   </div>
-                  <div className="flex flex-col justify-center max-md:px-4 lg:min-w-[400px] min-w-[250px]">
-                    <div className="flex justify-between max-md:gap-4 mb-2 max-h-[56px]">
-                      <h3 className="text-xl line-clamp-2 max-w-[230px]">{product.productName}</h3>
-                      <p>Category: {product.category.categoryName}</p>
-                    </div>
-                    <p className="max-w-[400px] line-clamp-2 mb-4 text-sm">{product.description}</p>
-                    <p className="text-lg">Price: ${product.price}</p>
-                  </div>
-                  <div className="flex justify-center">
-                    <div className="flex items-center border-l px-4">
-                      <Link href={`/admin/products/${product.id}`}>
-                        <button className="border rounded-lg py-2 px-4 cursor-pointer hover:bg-gray-200 dark:hover:bg-neutral-800 transition">Detail</button>
-                      </Link>
-                    </div>
-                    <div className="flex items-center border-x px-4">
-                      <Link href={`/admin/edit-product/${product.id}`}>
-                        <button className="border rounded-lg py-2 px-4 cursor-pointer hover:bg-gray-200 dark:hover:bg-neutral-800 transition">Edit</button>
-                      </Link>
-                    </div>
-                    <div className="flex items-center px-4">
-                      <button className="border rounded-lg py-2 px-4 bg-red-500 text-black hover:bg-red-700 dark:hover:bg-red-300 transition" onClick={() => handleDelete(product.id)}>Delete</button>
-                    </div>
-                  </div>
-                </div>
-              ))
-            )
+                ))) : (
+                  <p>No products found.</p>
+                )
+              )
           }
         </div>
       </div>
