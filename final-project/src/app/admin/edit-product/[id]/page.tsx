@@ -1,9 +1,10 @@
 'use client'
 
 import { useState, useEffect, ChangeEvent, FormEvent, use, useRef } from "react"
-import { AddProduct } from "@/types/product.types"
+import { AddProduct, Product } from "@/types/product.types"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
+import { Category } from "@/types/category.types"
 
 type Props = {
   params: Promise<{id: string}>
@@ -12,9 +13,9 @@ type Props = {
 const EditProduct = ({ params }: Props) => {
   const { id } = use(params)
 
-  const [thisProduct, setThisProduct] = useState<Omit<AddProduct, 'sku'>>({
+  const [formInputs, setFormInputs] = useState<Omit<Product, 'sku' | 'id' | 'createdAt' | 'updatedAt'>>({
     productName: '',
-    categoryId: 0,
+    category: {id: 0, categoryName: ''},
     price: 0,
     mainImage: '',
     description: '',
@@ -22,32 +23,29 @@ const EditProduct = ({ params }: Props) => {
     rating: 0,
   })
 
-  const [formInputs, setFormInputs] = useState<Omit<AddProduct, 'sku'>>({
-    productName: '',
-    categoryId: 0,
-    price: 0,
-    mainImage: '',
-    description: '',
-    discountPercentage: 0,
-    rating: 0,
-  })
+  const [categories, setCategories] = useState<Category[]>([])
 
   const [imageFile, setImageFile] = useState<File | null>(null)
   const [preview, setPrevew] = useState<string>('')
 
   const fileInputRef = useRef<HTMLInputElement | null>(null)
 
-  const categoryList = [
-    "mens-shirts",
-    "mens-shoes",
-    "mens-watches",
-    "tops",
-    "womens-bags",
-    "womens-dresses",
-    "womens-jewellery",
-    "womens-shoes",
-    "womens-watches"
-  ]
+  const fetchCategory = async() => {
+    try {
+      const res = await fetch('http://localhost:3000/category')
+      const data = await res.json()
+      const categoryNames = data.map((c: Category)  => c.categoryName)
+      console.log(data)
+      console.log(categoryNames)
+      setCategories(data)
+    } catch(err) {
+      console.log('category fetch failed: ', err)
+    }
+  }
+
+  useEffect(() => {
+    fetchCategory()
+  }, [])
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const {name, value} = e.target
@@ -90,13 +88,13 @@ const EditProduct = ({ params }: Props) => {
   }, [imageFile])
   
   const handleCategory = (e: ChangeEvent<HTMLInputElement>) => {
-    const {value} = e.target
+    const selectedCategoryId = parseInt(e.target.value, 10)
+    console.log('selected:', selectedCategoryId)
     setFormInputs(state => ({
       ...state,
-      categoryId: 1
+      categoryId: selectedCategoryId
     }))
   }
-
   const router = useRouter()
 
   //replace with fetch request
@@ -105,8 +103,9 @@ const EditProduct = ({ params }: Props) => {
     const generateSku = () => {
       return 'SKU-' + Math.floor(Math.random() * 1000000);
     };
-    const newProduct = {
+    const newProduct: AddProduct = {
       ...formInputs,
+      categoryId: formInputs.category.id,
       sku: generateSku()
     }
 
@@ -140,12 +139,15 @@ const EditProduct = ({ params }: Props) => {
       const res = await fetch(`http://localhost:3000/product/${id}`)
       const data = await res.json()
       setFormInputs(data)
-      setThisProduct(data)
       setPrevew(data.mainImage)
     }
 
     fetchProduct()
   }, [])
+
+  useEffect(() => {
+    console.log("Updated formInputs:", formInputs)
+  }, [formInputs])
 
   const handleBack = () => {
     if (window.history.length > 1) {
@@ -170,7 +172,7 @@ const EditProduct = ({ params }: Props) => {
       <div className="w-full flex flex-col justify-center items-center md:p-10 p-4">
         <div className="mt-14 mb-8 w-full">
           <button onClick={handleBack} className="hover:border-b cursor-pointer transition inline-flex items-center gap-2">
-              <span className="mb-1">←</span>
+              <span>&lt;</span>
               <span className="text-md">Back</span>
           </button>
         </div>
@@ -215,10 +217,10 @@ const EditProduct = ({ params }: Props) => {
             <div>
               <h3>Product Category</h3>
               <div className="flex flex-col">
-                {categoryList.map((cat, index) => (
+                {categories && categories.map((cat, index) => (
                   <label key={index} className="pl-2">
-                    <input type="radio" name="category" value={cat} onChange={(e) => handleCategory(e)} className=""/>
-                    <span>{cat}</span>
+                    <input type="radio" name="category" value={cat.id} checked={cat.id === formInputs.category.id} onChange={(e) => handleCategory(e)} className=""/>
+                    <span>{cat.categoryName}</span>
                   </label>
                 ))}
               </div>

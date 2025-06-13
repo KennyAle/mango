@@ -27,19 +27,6 @@ const AdminProducts = () => {
     console.log(products)
   }, [])
 
-
-  const CategoryList = [
-    "mens-shirts",
-    "mens-shoes",
-    "mens-watches",
-    "tops",
-    "womens-bags",
-    "womens-dresses",
-    "womens-jewellery",
-    "womens-shoes",
-    "womens-watches"
-  ]
-
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchInput(e.target.value);
     console.log(searchInput)
@@ -89,17 +76,22 @@ const AdminProducts = () => {
   return (
     <div className="flex flex-col w-full items-center">
       <div className="m-6 md:w-3/4 w-full md:p-0 p-8 mt-20">
-        <div className="text-center mb-10 w-full flex items-center gap-4 ">
-          <div>
+        <div className="text-center mb-10 w-full flex items-center gap-4 px-2 ">
+          <div className="md:w-1/3">
             <form onSubmit={e => handleSearch(e)} className='flex justify-center items-center md:mt-4'>
               <input type="text" value={searchInput} name='search' onChange={handleChange} placeholder='Search...' className='shadow-[0_0_1px] rounded-3xl w-full py-2 pl-4 pr-9' />
               <button className='-translate-x-8 cursor-pointer'><Search /></button>
             </form>
           </div>
           <div className="w-full flex-1">
-            <h1 className="text-2xl">Products</h1>
+            <h1 className="text-2xl max-md:hidden">Products</h1>
           </div>
-          <Link href='/admin/add-product' className="shadow-[0_0_1px] rounded-lg px-4 py-3 mr-10 hover:bg-gray-200 dark:hover:bg-neutral-800 transition w-32">Add Product</Link>
+          <div className="md:w-1/4 w-1/3">
+            <Link href='/admin/add-product' className="shadow-[0_0_1px] rounded-4xl  md:px-6 px-4 py-3 hover:bg-gray-200 dark:hover:bg-neutral-800 transition w-22"><span className="max-md:text-2xl align-middle">+</span> <span className="max-md:hidden">New</span></Link>
+          </div>
+          <div>
+            <Link href='/admin/category' className="shadow-[0_0_1px] rounded-4xl  md:px-6 px-4 py-3 hover:bg-gray-200 dark:hover:bg-neutral-800 transition w-22">Category</Link>
+          </div>
         </div>
         <div className="w-full overflow-scroll custom-scrollbar">
           {products.length === 0 ? (
@@ -110,8 +102,8 @@ const AdminProducts = () => {
                   <div className="relative h-[150px] w-[150px] border-r">
                     <Image src={product.mainImage} alt={product.productName} fill className="object-contain" /> 
                   </div>
-                  <div className="flex flex-col justify-center max-md:px-4 lg:min-w-[400px]">
-                    <div className="flex justify-between max-md:gap-4 mb-2">
+                  <div className="flex flex-col justify-center max-md:px-4 lg:min-w-[400px] min-w-[250px]">
+                    <div className="flex justify-between max-md:gap-4 mb-2 max-h-[56px]">
                       <h3 className="text-xl line-clamp-2 max-w-[230px]">{product.productName}</h3>
                       <p>Category: {product.category.categoryName}</p>
                     </div>

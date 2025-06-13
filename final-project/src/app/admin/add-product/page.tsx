@@ -5,8 +5,10 @@ import type { AddProduct } from "@/types/product.types"
 import { useRouter } from "next/navigation"
 import toast from "react-hot-toast"
 import Image from "next/image"
+import { Category } from "@/types/category.types"
 
 const AddProduct = () => {
+  //--------------------------------- state -----------------------------------------------
   const [formInputs, setFormInputs] = useState<Omit<AddProduct, 'sku'>>({
     productName: '',
     categoryId: 0,
@@ -21,6 +23,8 @@ const AddProduct = () => {
 
   const fileInputRef = useRef<HTMLInputElement | null>(null)
 
+  const [categories, setCategories] = useState<Category[]>([])
+
   const categoryList = [
     "mens-shirts",
     "mens-shoes",
@@ -33,6 +37,25 @@ const AddProduct = () => {
     "womens-watches"
   ]
 
+  //--------------------------------------- category ---------------------------------------------
+  
+  const fetchCategory = async() => {
+    try {
+      const res = await fetch('http://localhost:3000/category')
+      const data = await res.json()
+      const categoryNames = data.map((c: Category)  => c.categoryName)
+      console.log(data)
+      console.log(categoryNames)
+      setCategories(data)
+    } catch(err) {
+      console.log('category fetch failed: ', err)
+    }
+  }
+
+  useEffect(() => {
+    fetchCategory()
+  }, [])
+  //----------------------------------- product -----------------------------------------------
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const {name, value} = e.target
     setFormInputs(state => ({
@@ -80,25 +103,16 @@ const AddProduct = () => {
     }
   }
 
-  // useEffect(() => {
-  //   if (!imageFile) {
-  //     setPrevew('')
-  //     return
-  //   }
-
-  //   const imageUrl = URL.createObjectURL(imageFile)
-  //   setPrevew(imageUrl)
-
-  //   return () => URL.revokeObjectURL(imageUrl)
-
-  // }, [imageFile])
-
   const handleCategory = (e: ChangeEvent<HTMLInputElement>) => {
-    const {value} = e.target
-    setFormInputs(state => ({
-      ...state,
-      categoryId: 1
-    }))
+    const selectedCategoryName = e.target.value
+    const selectedCategory = categories.find(cat => cat.categoryName === selectedCategoryName)
+
+    if (selectedCategory) {
+      setFormInputs(state => ({
+        ...state,
+        categoryId: selectedCategory.id
+      }))
+    }
   }
 
   useEffect(() => {
@@ -165,7 +179,7 @@ const AddProduct = () => {
       <div className="w-full flex flex-col justify-center items-center md:p-10 p-4">
         <div className="mt-14 mb-8 w-full">
           <button onClick={handleBack} className="hover:border-b cursor-pointer transition inline-flex items-center gap-2">
-              <span className="mb-1">←</span>
+              <span>&lt;</span>
               <span className="text-md">Back</span>
           </button>
         </div>
@@ -210,15 +224,15 @@ const AddProduct = () => {
             <div>
               <h3>Product Category</h3>
               <div className="flex flex-col">
-                {categoryList.map((cat, index) => (
-                  <label key={index} className="pl-2">
-                    <input type="radio" name="category" value={cat} onChange={(e) => handleCategory(e)} />
-                    <span>{cat}</span>
+                {categories && categories.map((cat) => (
+                  <label key={cat.id} className="pl-2">
+                    <input type="radio" name="category" value={cat.categoryName} onChange={(e) => handleCategory(e)} />
+                    <span>{cat.categoryName}</span>
                   </label>
                 ))}
               </div>
             </div>
-            <button className="bg-black text-white p-3 text-sm uppercase hover:bg-gray-900/80 transition">Submit</button>
+            <button className="bg-black text-white p-3 text-sm uppercase hover:bg-gray-800 transition">Submit</button>
           </form>
           <div className="w-full px-8 pb-4">
             <button onClick={() => router.push('/admin/products')} className="w-full bg-red-500 text-black p-3 text-sm uppercase hover:bg-red-700 dark:hover:bg-red-300 transition">Cancel</button>
