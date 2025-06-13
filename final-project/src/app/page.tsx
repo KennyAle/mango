@@ -10,12 +10,12 @@ const page = () => {
   return (
     <main className="bg-[#d2cdc1] dark:bg-neutral-900">
       <Hero />
-      {/* <Mediasearch /> */}
-      {/* <Giftguides /> */}
+      <Mediasearch />
+      <Giftguides />
       <ProductSection />
       <Faq />
-      {/* <Clientssays /> */}
-      {/* <Newsletter /> */}
+      <Clientssays />
+      <Newsletter />
     </main>
   );
 }

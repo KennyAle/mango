@@ -1,20 +1,29 @@
 const Giftguides = () => {
   return (
-    <div className=" text-black flex justify-center items-center gap-2 bg-stone-300">
-      <section className="relative">
-        <img className="rounded-l-xl" src="https://placehold.jp/400x600.png" alt="" />
-        <div className="absolute bottom-20 left-1/2 -translate-x-1/2 flex flex-col justify-center items-center gap-1">
-          <h1 className="text-3xl">WOMEN</h1>
-          <h1 className="text-3xl">GIFT GUIDES</h1>
-          <p className="text-lg underline font-bold">Find out more</p>
+    <div className="flex justify-center items-center gap-2 pt-15">
+      <section className="relative h-[700px] w-full max-w-[600px]">
+        <img
+          src="/home/female-model.jpg"
+          alt=""
+          className="h-full w-full object-cover rounded-l-xl"
+        />
+        <div className="absolute bottom-20 left-1/2 -translate-x-1/2 flex flex-col justify-center items-start md:items-center gap-1">
+          <h1 className="text-3xl text-white">WOMEN</h1>
+          <h1 className="text-3xl text-white">GIFT GUIDES</h1>
+          <p className="text-lg underline font-bold text-white">Find out more</p>
         </div>
       </section>
-      <section className="relative">
-        <img className="rounded-r-xl" src="https://placehold.jp/400x600.png" alt="" />
-        <div className="absolute bottom-20 left-1/2 -translate-x-1/2 flex flex-col justify-center items-center gap-1">
-          <h1 className="text-3xl">MEN</h1>
-          <h1 className="text-3xl">GIFT GUIDES</h1>
-          <p className="text-lg underline font-bold">Find out more</p>
+
+      <section className="relative h-[700px] w-full max-w-[600px]">
+        <img
+          src="/home/male-model.jpg"
+          alt=""
+          className="h-full w-full object-cover rounded-r-xl"
+        />
+        <div className="absolute bottom-20 left-1/2 -translate-x-1/2 flex flex-col justify-center items-start md:items-center gap-1">
+          <h1 className="text-3xl text-black">MEN</h1>
+          <h1 className="text-3xl text-black">GIFT GUIDES</h1>
+          <p className="text-lg underline font-bold text-black">Find out more</p>
         </div>
       </section>
     </div>
