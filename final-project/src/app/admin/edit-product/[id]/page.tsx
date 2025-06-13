@@ -1,8 +1,11 @@
 'use client'
 
-import { useState, useEffect, ChangeEvent, FormEvent, use } from "react"
-import { AddProduct } from "@/types/product.types"
+import { useState, useEffect, ChangeEvent, FormEvent, use, useRef } from "react"
+import { AddProduct, Product } from "@/types/product.types"
 import { useRouter } from "next/navigation"
+import Image from "next/image"
+import { Category } from "@/types/category.types"
+import AdminMenu from "@/components/AdminMenu"
 
 type Props = {
   params: Promise<{id: string}>
@@ -11,9 +14,9 @@ type Props = {
 const EditProduct = ({ params }: Props) => {
   const { id } = use(params)
 
-  const [thisProduct, setThisProduct] = useState<Omit<AddProduct, 'sku'>>({
+  const [formInputs, setFormInputs] = useState<Omit<Product, 'sku' | 'id' | 'createdAt' | 'updatedAt'>>({
     productName: '',
-    categoryId: 0,
+    category: {id: 0, categoryName: ''},
     price: 0,
     mainImage: '',
     description: '',
@@ -21,27 +24,29 @@ const EditProduct = ({ params }: Props) => {
     rating: 0,
   })
 
-  const [formInputs, setFormInputs] = useState<Omit<AddProduct, 'sku'>>({
-    productName: '',
-    categoryId: 0,
-    price: 0,
-    mainImage: '',
-    description: '',
-    discountPercentage: 0,
-    rating: 0,
-  })
+  const [categories, setCategories] = useState<Category[]>([])
 
-  const categoryList = [
-    "mens-shirts",
-    "mens-shoes",
-    "mens-watches",
-    "tops",
-    "womens-bags",
-    "womens-dresses",
-    "womens-jewellery",
-    "womens-shoes",
-    "womens-watches"
-  ]
+  const [imageFile, setImageFile] = useState<File | null>(null)
+  const [preview, setPrevew] = useState<string>('')
+
+  const fileInputRef = useRef<HTMLInputElement | null>(null)
+
+  const fetchCategory = async() => {
+    try {
+      const res = await fetch('http://localhost:3000/category')
+      const data = await res.json()
+      const categoryNames = data.map((c: Category)  => c.categoryName)
+      console.log(data)
+      console.log(categoryNames)
+      setCategories(data)
+    } catch(err) {
+      console.log('category fetch failed: ', err)
+    }
+  }
+
+  useEffect(() => {
+    fetchCategory()
+  }, [])
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const {name, value} = e.target
@@ -54,22 +59,43 @@ const EditProduct = ({ params }: Props) => {
   const handleImage = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {
-      const imageUrl = URL.createObjectURL(file)
+      setImageFile(file)
+    } else {
+      setImageFile(null)
+      setPrevew('')
       setFormInputs(state => ({
         ...state,
-        mainImage: imageUrl
+        mainImage: ''
       }))
     }
   }
 
-  const handleCategory = (e: ChangeEvent<HTMLInputElement>) => {
-    const {value} = e.target
+  useEffect(() => {
+    if (!imageFile) {
+      setPrevew('')
+      return
+    }
+
+    const imageUrl = URL.createObjectURL(imageFile)
+    setPrevew(imageUrl)
+
     setFormInputs(state => ({
       ...state,
-      categoryId: 1
+      mainImage: imageUrl
+    }))
+
+    return () => URL.revokeObjectURL(imageUrl)
+
+  }, [imageFile])
+  
+  const handleCategory = (e: ChangeEvent<HTMLInputElement>) => {
+    const selectedCategoryId = parseInt(e.target.value, 10)
+    console.log('selected:', selectedCategoryId)
+    setFormInputs(state => ({
+      ...state,
+      categoryId: selectedCategoryId
     }))
   }
-
   const router = useRouter()
 
   //replace with fetch request
@@ -78,8 +104,9 @@ const EditProduct = ({ params }: Props) => {
     const generateSku = () => {
       return 'SKU-' + Math.floor(Math.random() * 1000000);
     };
-    const newProduct = {
+    const newProduct: AddProduct = {
       ...formInputs,
+      categoryId: formInputs.category.id,
       sku: generateSku()
     }
 
@@ -110,14 +137,18 @@ const EditProduct = ({ params }: Props) => {
 
   useEffect(() => {
     const fetchProduct = async() => {
-      const res = await fetch(`https://dummyjson.com/products/${id}`)
+      const res = await fetch(`http://localhost:3000/product/${id}`)
       const data = await res.json()
       setFormInputs(data)
-      setThisProduct(data)
+      setPrevew(data.mainImage)
     }
 
     fetchProduct()
   }, [])
+
+  useEffect(() => {
+    console.log("Updated formInputs:", formInputs)
+  }, [formInputs])
 
   const handleBack = () => {
     if (window.history.length > 1) {
@@ -126,12 +157,26 @@ const EditProduct = ({ params }: Props) => {
       router.push('/admin/products')
     }
   }
+
+  const handleRemoveImage = () => {
+    setImageFile(null)
+    setPrevew('')
+    setFormInputs(state => ({
+      ...state,
+      mainImage: ''
+    }))
+    if (fileInputRef.current) fileInputRef.current.value = ''
+  }
   
   return (
     <div className="flex justify-center items-center w-full min-h-screen">
+      <AdminMenu />
       <div className="w-full flex flex-col justify-center items-center md:p-10 p-4">
         <div className="mt-14 mb-8 w-full">
-          <button onClick={handleBack} className="hover:underline transition">Back To List</button>
+          <button onClick={handleBack} className="hover:border-b cursor-pointer transition inline-flex items-center gap-2">
+              <span>&lt;</span>
+              <span className="text-md">Back</span>
+          </button>
         </div>
         <div className="flex flex-col justify-center items-center md:p-4 py-8 md:w-2/3 w-full bg-white dark:bg-neutral-800">
           <h1 className="text-xl mt-6">Edit Product</h1>
@@ -142,7 +187,18 @@ const EditProduct = ({ params }: Props) => {
             </div>
             <div className="flex flex-col">
               <label htmlFor="mainImage">Product Image</label>
-              <input type="file" name="mainImage" onChange={(e) => handleImage(e)} className="border p-3 rounded bg-white dark:bg-neutral-700 dark:border-neutral-600 text-black dark:text-white" />
+              <div className="w-full flex justify-between gap-6">
+                <input type="file" name="mainImage" onChange={(e) => handleImage(e)} className="border w-full p-3 rounded bg-white dark:bg-neutral-700 dark:border-neutral-600 text-black dark:text-white" />
+                <button type="button" onClick={handleRemoveImage} className="border rounded-lg px-4 py-3 hover:bg-neutral-800">Remove</button>
+              </div>
+            </div>
+            <div>
+              <h3 className="mb-4">Image preview: </h3>
+              {preview && (
+                <div className="relative w-[300px] h-[300px] flex justify-center w-full">
+                  <Image src={preview} alt="preview image" fill className="object-contain"/>
+                </div>
+              )}
             </div>
             <div className="flex flex-col">
               <label htmlFor="description">Product Description</label>
@@ -163,10 +219,10 @@ const EditProduct = ({ params }: Props) => {
             <div>
               <h3>Product Category</h3>
               <div className="flex flex-col">
-                {categoryList.map((cat, index) => (
+                {categories && categories.map((cat, index) => (
                   <label key={index} className="pl-2">
-                    <input type="radio" name="category" value={cat} onChange={(e) => handleCategory(e)} className=""/>
-                    <span>{cat}</span>
+                    <input type="radio" name="category" value={cat.id} checked={cat.id === formInputs.category.id} onChange={(e) => handleCategory(e)} className=""/>
+                    <span>{cat.categoryName}</span>
                   </label>
                 ))}
               </div>
@@ -174,7 +230,7 @@ const EditProduct = ({ params }: Props) => {
             <button className="bg-black text-white p-3 text-sm uppercase hover:bg-gray-900/80 transition">Submit</button>
           </form>
           <div className="w-full px-8 pb-4">
-            <button onClick={() => router.back()} className="w-full bg-red-500 text-black p-3 text-sm uppercase hover:bg-red-300 transition">Cancel</button>
+            <button onClick={() => router.back()} className="w-full bg-red-500 text-black p-3 text-sm uppercase hover:bg-red-700 dark:hover:bg-red-300 transition">Cancel</button>
           </div>
         </div>
       </div>
