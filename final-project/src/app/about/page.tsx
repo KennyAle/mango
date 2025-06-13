@@ -31,16 +31,16 @@ const page = () => {
   const [slideIndex, setSlideIndex] = useState(0)
 
   return (
-    <div className="relative top-28 flex flex-col justify-center items-center">
-      <section className="flex justify-center items-center w-10/12 p-10">
+    <div className="relative top-24 flex flex-col justify-center items-center">
+      <section className="flex flex-col md:flex-row justify-center items-center w-full md:w-10/12 py-16 gap-6">
         <div className="flex-1 flex flex-col gap-3 w-full">
-          <h1 className="text-4xl font-semibold">Fuel Your Fabuluxe</h1>
-          <h1 className="text-3xl font-semibold">Where fashion meets authenticity</h1>
-          <p>Founded with a passion for individuality and self-expression, MANGO is here to make fashion simple, fun, and accessible. Whether you're dressing up for a big night out or curating your everyday essentials, we’ve got you covered.</p>
-          <button className="bg-stone-800 hover:bg-gray-600 px-4 py-2 text-xs font-semibold w-fit transition cursor-pointer">Get Started</button>
+          <h1 className="text-4xl font-semibold text-center md:text-left">Fuel Your Fabuluxe</h1>
+          <h1 className="text-3xl font-semibold text-center md:text-left">Where fashion meets authenticity</h1>
+          <p className="text-center md:text-left px-4 md:px-0">Founded with a passion for individuality and self-expression, MANGO is here to make fashion simple, fun, and accessible. Whether you're dressing up for a big night out or curating your everyday essentials, we’ve got you covered.</p>
+          <button className="bg-stone-800 hover:bg-gray-600 px-4 py-2 text-xs font-semibold w-fit transition cursor-pointer mx-auto md:mx-0">Get Started</button>
         </div>
         <div className="relative flex-1 flex justify-center items-center">
-          <img className="relative left-6 rounded-2xl" src="https://www.liveabout.com/thmb/YEaeCc5sLIe6KRQjKfodkTI84Yo=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/GettyImages-487149250-58c71e5b3df78c353c0577eb.jpg" alt="" />
+          <img className="relative md:left-6 w-3/4 ,d:w-full rounded-2xl" src="https://www.liveabout.com/thmb/YEaeCc5sLIe6KRQjKfodkTI84Yo=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/GettyImages-487149250-58c71e5b3df78c353c0577eb.jpg" alt="" />
         </div>
       </section>
 
@@ -63,57 +63,65 @@ const page = () => {
 
       <section className="w-full py-20"><Mediasearch /></section>
 
-      <section className="w-full py-12 px-6">
+      <section className="w-full pb-40 px-24">
         <h1 className="text-4xl font-semibold text-center mb-12">
           The Faces of <span className="text-gray-400">Innovation</span>
         </h1>
 
-        <div className="w-full mb-10">
+        <div className="w-full pb-10">
           <Swiper
             modules={[Pagination, Autoplay]}
+            autoplay={{ delay: 3000 }}
             spaceBetween={10}
             slidesPerView={3}
+            centeredSlides={true}
             navigation
             pagination={{ clickable: true}}
             loop={true}
+            breakpoints={{
+              320: { slidesPerView: 1 },
+              640: { slidesPerView: 1.5 },
+              768: { slidesPerView: 2 },
+              1024: { slidesPerView: 3 },
+            }}
             onSlideChange={(swiper) => {
               setSlideIndex(swiper.realIndex)
             }}
             className='relative'
-      >
-        { members.map((slide, index) => (
-            <SwiperSlide className='rounded-lg' key={index}>
-                <div className={`p-6 rounded-lg shadow-md h-80 sm:h-64 md:h-72 flex flex-col justify-center items-center text-center gap-3 overflow-hidden ${slideIndex === index ? "bg-stone-400 text-black":"bg-stone-700/80 text-black"}`}>
-                    <img src={slide.img} alt={slide.name} className="rounded-full w-50 h-50 "/>
-                    <h1 className="font-semibold text-lg text-center">{slide.name}</h1>
-                    <p className="text-sm max-w-xs sm:max-w-md md:max-w-lg w-full px-2">{slide.role}</p>
+            
+          >
+            { members.map((slide, index) => (
+              <SwiperSlide className='rounded-lg' key={index}>
+                <div className={`p-2 rounded-lg shadow-md h-80 sm:h-64 md:h-80 flex flex-col justify-center items-center text-center overflow-hidden ${slideIndex === index ? "bg-stone-400 text-black":"bg-stone-700/80 text-black"}`}>
+                  <img src={slide.img} alt={slide.name} className=" h-60"/>
+                  <h1 className="font-semibold text-2xl text-center pt-1">{slide.name}</h1>
+                  <p className="text-gray-800 text-sm max-w-xs sm:max-w-md md:max-w-lg w-full px-1 font-semibold">{slide.role}</p>
                 </div>
-            </SwiperSlide>
-        ))}
-      </Swiper>
+              </SwiperSlide>
+            ))}
+          </Swiper>
 
-       <style jsx global>{`
-        .swiper-pagination {
-          position: relative;
-          margin-top: 1.5rem;
-          display: flex;
-          justify-content: center;
-          gap: 0.5rem;
-        }
-        .swiper-pagination-bullet {
-          width: 4px;
-          height: 4px;
-          background: #a8a29e;
-          opacity: 1;
-          border-radius: 9999px;
-          transition: background 0.3s;
-        }
-        .swiper-pagination-bullet-active {
-          background: #fff;
-        }
-      `}</style>
-    </div>
-
+          <style jsx global>{`
+            .swiper-pagination {
+              position: relative;
+              margin-top: 1.5rem;
+              display: flex;
+              justify-content: center;
+              gap: 0.5rem;
+            }
+            .swiper-pagination-bullet {
+              width: 4px;
+              height: 4px;
+              background: #a8a29e;
+              opacity: 1;
+              border-radius: 9999px;
+              transition: background 0.3s;
+            }
+            .swiper-pagination-bullet-active {
+              background: #fff;
+            }
+          `}</style>
+        </div>
       </section>
     </div>
   )

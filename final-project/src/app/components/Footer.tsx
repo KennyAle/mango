@@ -5,15 +5,15 @@ import { TbBrandTwitterFilled } from "react-icons/tb";
 const Footer = () => {
   return (
     <div>
-        <section className="bg-stone-200 w-full flex justify-between items-center p-2.5 pl-[3rem] pr-[3rem]">
-            <h1 className="text-xl font-semibold">MANGO</h1>
+        <section className="bg-stone-200 w-full flex justify-center md:justify-between items-center p-2 md:p-2.5 md:pl-[3rem] md:pr-[3rem]">
+            <h1 className="text-black text-xl font-semibold hidden sm:block">MANGO</h1>
             <ul className="flex justify-around items-center gap-16 text-sm text-gray-600">
                 <li>Product</li>
                 <li>Features</li>
                 <li>Reviews</li>
                 <li>About us</li>
             </ul>
-            <ul className="flex justify-around items-center gap-5">
+            <ul className="hidden sm:block md:flex justify-around items-center gap-5 text-black ">
                 <li><FaFacebookF/></li>
                 <li><FaInstagram/></li>
                 <li><TbBrandTwitterFilled/></li>
