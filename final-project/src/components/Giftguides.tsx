@@ -1,6 +1,6 @@
 const Giftguides = () => {
   return (
-    <div className="flex justify-center items-center gap-2 pt-15">
+    <div className="flex justify-center items-center gap-2 pt-15 px-15">
       <section className="relative h-[700px] w-full max-w-[600px]">
         <img
           src="/home/female-model.jpg"

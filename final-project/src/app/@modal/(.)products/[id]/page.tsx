@@ -29,7 +29,7 @@ const page = async({params}: Props) => {
 
   return (
     <div className="fixed inset-0 z-50 bg-black/50 dark:bg-black/70 flex items-center justify-center">
-      <div className="bg-white dark:bg-neutral-900 rounded-lg p-6 w-full max-w-md shadow-lg relative">
+      <div className="bg-white dark:bg-neutral-900 p-6 w-full max-w-md shadow-lg relative">
         <BackButton />
         <div className="w-full aspect-video bg-neutral-100 dark:bg-neutral-400 rounded overflow-hidden mb-4">
           <Image
@@ -46,7 +46,7 @@ const page = async({params}: Props) => {
         </p>
         <p className="text-lg font-bold mb-4">${data.price}</p>
         <div className="flex gap-3">
-          <button className="cursor-pointer flex-1 py-2 bg-black text-white rounded hover:bg-neutral-800 transition">
+          <button className="cursor-pointer flex-1 py-2 bg-black text-white hover:bg-neutral-800 transition">
             Add to Cart
           </button>
           <ViewMoreButton id={data.id} />

@@ -2,6 +2,7 @@
 
 import emailjs from '@emailjs/browser'
 import { FormEvent, useRef } from 'react'
+import toast from 'react-hot-toast'
 
 
 const Contact = () => {
@@ -16,11 +17,11 @@ const Contact = () => {
 
     try {
       await emailjs.sendForm('service_53bu84b', 'template_m600t96', formRef.current, 'nTWPDs-UosTwE2uZH')
-      alert('message sent successfully')
+      toast.success('message sent successfully')
       formRef.current.reset()
     } catch(err) {
       console.log(err)
-      alert('failed to send message')
+      toast.error('failed to send message')
     }
   }
   

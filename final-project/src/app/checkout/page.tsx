@@ -98,6 +98,7 @@ const Page = () => {
       }
 
       setClientSecret(data.clientSecret);
+      localStorage.setItem("clientSecret", data.clientSecret);
       console.log(data.clientSecret)
       setShowPayment(true);
     } catch (error) {

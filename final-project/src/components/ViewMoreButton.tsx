@@ -8,7 +8,7 @@ const ViewMoreButton = ({ id }: { id: number }) => {
   return (
     <button
       onClick={handleClick}
-      className="cursor-pointer flex justify-center items-center flex-1 py-2 bg-white text-black border border-black rounded hover:bg-neutral-200"
+      className="cursor-pointer flex justify-center items-center flex-1 py-2 bg-white text-black border border-black hover:bg-neutral-200"
     >
       View More
     </button>
