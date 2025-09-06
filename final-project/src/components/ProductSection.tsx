@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import ProductList from "./ProductList";
 import Link from "next/link";
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const categories = [
   "mens-shirts",

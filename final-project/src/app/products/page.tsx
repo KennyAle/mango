@@ -1,4 +1,5 @@
 import ProductList from "@/components/ProductList";
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const page = async() => {
   const res = await fetch(`http://localhost:5173/api/products/`);

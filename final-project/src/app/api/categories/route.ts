@@ -1,7 +1,8 @@
 export const revalidate = 120
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export async function GET() {
-  const res = await fetch("http://localhost:3000/category")
+  const res = await fetch(`${API_URL}/category`)
   const data = await res.json()
 
   return Response.json(data)

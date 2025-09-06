@@ -6,6 +6,7 @@ import { useEffect, use, useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import AdminMenu from "@/components/AdminMenu"
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 type Props = {
   params: Promise<{id: string}>
@@ -26,7 +27,7 @@ const ProductDetail = ({ params }: Props) => {
 
   useEffect(() => {
     const fetchProduct = async() => {
-      const res = await fetch(`http://localhost:3000/product/${id}`)
+      const res = await fetch(`${API_URL}/product/${id}`)
       const data = await res.json()
       setThisProduct(data)
     }
@@ -46,7 +47,7 @@ const ProductDetail = ({ params }: Props) => {
   
   const handleDelete = async() => {
     try {
-      const res = await fetch(`http://localhost:3000/product/${id}`, {
+      const res = await fetch(`${API_URL}/product/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

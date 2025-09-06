@@ -7,6 +7,7 @@ import toast from "react-hot-toast"
 import Image from "next/image"
 import { Category } from "@/types/category.types"
 import AdminMenu from "@/components/AdminMenu"
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const AddProduct = () => {
   //--------------------------------- state -----------------------------------------------
@@ -42,7 +43,7 @@ const AddProduct = () => {
   
   const fetchCategory = async() => {
     try {
-      const res = await fetch('http://localhost:3000/category')
+      const res = await fetch(`${API_URL}/category`)
       const data = await res.json()
       const categoryNames = data.map((c: Category)  => c.categoryName)
       console.log(data)
@@ -133,7 +134,7 @@ const AddProduct = () => {
     }
 
       try {
-        const res = await fetch('http://localhost:3000/product', {
+        const res = await fetch(`${API_URL}/product`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

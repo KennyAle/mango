@@ -5,6 +5,7 @@ import toast from "react-hot-toast"
 import { Category } from "@/types/category.types"
 import { useRouter } from "next/navigation"
 import AdminMenu from "@/components/AdminMenu"
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const CategoryList = () => {
   const [categories, setCategories] = useState<Category[]>([])
@@ -25,7 +26,7 @@ const CategoryList = () => {
 
   const fetchCategoryById = async (id: number) => {
     try {
-      const res = await fetch(`http://localhost:3000/category/${id}`)
+      const res = await fetch(`${API_URL}/category/${id}`)
       const data = await res.json()
       console.log(data)
       setEditingCategory({
@@ -58,7 +59,7 @@ const CategoryList = () => {
 
   const handleEditCategory = async(id: number) => {
     try {
-      const res = await fetch(`http://localhost:3000/category/${id}`, {
+      const res = await fetch(`${API_URL}/category/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -95,7 +96,7 @@ const CategoryList = () => {
   //--------------------------------------- Create Category ------------------------------------------------
   const fetchCategory = async() => {
     try {
-      const res = await fetch('http://localhost:3000/category')
+      const res = await fetch(`${API_URL}/category`)
       const data = await res.json()
       const categoryNames = data.map((c: Category)  => c.categoryName)
       console.log(data)
@@ -121,7 +122,7 @@ const CategoryList = () => {
 
   const handleCreateCategory = async() => {
     try {
-      const res = await fetch('http://localhost:3000/category', {
+      const res = await fetch(`${API_URL}/category`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -151,7 +152,7 @@ const CategoryList = () => {
 
   const handleDelete = async(id: number) => {
     try {
-      const res = await fetch(`http://localhost:3000/category/${id}`, {
+      const res = await fetch(`${API_URL}/category/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json'

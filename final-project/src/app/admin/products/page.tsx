@@ -9,6 +9,7 @@ import toast from "react-hot-toast"
 import { Category } from "@/types/category.types"
 import AdminMenu from "@/components/AdminMenu"
 import Loading from "@/components/Loading"
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const AdminProducts = () => {
   const [products, setProducts] = useState<Product[]>([])
@@ -19,7 +20,7 @@ const AdminProducts = () => {
     const fetchProducts = async () => {
       setIsLoading(true)
       try {
-        const res = await fetch('http://localhost:3000/product')
+        const res = await fetch(`${API_URL}/product`)
         const data = await res.json()
         setProducts(data)
         console.log('fetched products:', data)
@@ -43,19 +44,19 @@ const AdminProducts = () => {
     e.preventDefault()
     setIsLoading(true)
     try {
-      const res = await fetch('http://localhost:3000/category')
+      const res = await fetch(`${API_URL}/category`)
       const categoryData: Category[] = await res.json()
       const categoryMatch = categoryData.find(c => c.categoryName.toLowerCase() === searchInput.toLowerCase())
 
       if (categoryMatch) {
-        const res = await fetch(`http://localhost:3000/product/category/${categoryMatch.id}`)
+        const res = await fetch(`${API_URL}/product/category/${categoryMatch.id}`)
         const data = await res.json()
         console.log('search by category: ', data)
         setProducts(data)
         return
       }
 
-      const res2 = await fetch(`http://localhost:3000/product/search/${searchInput}`)
+      const res2 = await fetch(`${API_URL}/product/search/${searchInput}`)
       const data2 = await res2.json()
       console.log('success:', data2)
       setProducts([data2])
@@ -71,7 +72,7 @@ const AdminProducts = () => {
     const result = confirm('Are you sure you want to delete this product?')
     if (result) {
       try {
-        const res = await fetch(`http://localhost:3000/product/${id}`, {
+        const res = await fetch(`${API_URL}/product/${id}`, {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',

@@ -11,6 +11,8 @@ type Props = {
   params: Promise<{id: string}>
 }
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 const EditProduct = ({ params }: Props) => {
   const { id } = use(params)
 
@@ -33,7 +35,7 @@ const EditProduct = ({ params }: Props) => {
 
   const fetchCategory = async() => {
     try {
-      const res = await fetch('http://localhost:3000/category')
+      const res = await fetch(`${API_URL}/category`)
       const data = await res.json()
       const categoryNames = data.map((c: Category)  => c.categoryName)
       console.log(data)
@@ -111,7 +113,7 @@ const EditProduct = ({ params }: Props) => {
     }
 
     try {
-      const res = await fetch(`http://localhost:3000/product/${id}`, {
+      const res = await fetch(`${API_URL}/product/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -137,7 +139,7 @@ const EditProduct = ({ params }: Props) => {
 
   useEffect(() => {
     const fetchProduct = async() => {
-      const res = await fetch(`http://localhost:3000/product/${id}`)
+      const res = await fetch(`${API_URL}/product/${id}`)
       const data = await res.json()
       setFormInputs(data)
       setPrevew(data.mainImage)

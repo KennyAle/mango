@@ -8,6 +8,7 @@ import autoAnimate from "@formkit/auto-animate";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const Page = () => {
   const {
@@ -50,7 +51,7 @@ const Page = () => {
     }
 
     try {
-      const res = await fetch(`http://localhost:3000/cart/address/${userId}`, {
+      const res = await fetch(`${API_URL}/cart/address/${userId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -82,7 +83,7 @@ const Page = () => {
 
     try {
       const res = await fetch(
-        "http://localhost:3000/payment/create-payment-intent",
+        `${API_URL}/payment/create-payment-intent`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

@@ -6,15 +6,17 @@ export type NewUser = {
     role: string;
 };
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 export async function getUsers() {
-    const res = await fetch("http://localhost:3000/user")
+    const res = await fetch(`${API_URL}/user`)
     const data = await res.json()
     return data
 }
 
 export async function getUserById(userId: number) {
     try {
-        const res = await fetch(`http://localhost:3000/user/${userId}`, {
+        const res = await fetch(`${API_URL}/user/${userId}`, {
             method: "GET",
             credentials: "include",
         });
@@ -34,7 +36,7 @@ export async function getUserById(userId: number) {
 
 
 export async function newUser(user: NewUser) {
-    const res = await fetch("http://localhost:3000/user/signup", {
+    const res = await fetch(`${API_URL}/user/signup`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -54,7 +56,7 @@ export async function newUser(user: NewUser) {
 
 
 export async function logInUser(email: string, password: string) {
-    const res = await fetch("http://localhost:3000/user/login", {
+    const res = await fetch(`${API_URL}/user/login`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -72,7 +74,7 @@ export async function logInUser(email: string, password: string) {
 }
 
 export async function logOutUser() {
-    const res = await fetch("http://localhost:3000/user/logout", {
+    const res = await fetch(`${API_URL}/user/logout`, {
         method: "GET",
         credentials: "include",
     });
@@ -82,7 +84,7 @@ export async function logOutUser() {
 }
 
 export async function checkCookie() {
-    const res = await fetch("http://localhost:3000/user/check-cookie", {
+    const res = await fetch(`${API_URL}/user/check-cookie`, {
         credentials: "include",
     });
     const data = await res.json();

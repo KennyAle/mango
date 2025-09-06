@@ -26,14 +26,16 @@ export type Cart = {
   cartItems: CartItem[];
 };
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 export async function getCart(userId: number): Promise<Cart> {
-  const res = await fetch(`http://localhost:3000/cart/${userId}`);
+  const res = await fetch(`${API_URL}/cart/${userId}`);
   if (!res.ok) throw new Error("Failed to fetch cart");
   return res.json();
 }
 
 export async function addItem(userId: number, productId: number, quantity: number) {
-  const res = await fetch(`http://localhost:3000/cart/item/${userId}`, {
+  const res = await fetch(`${API_URL}/cart/item/${userId}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ productId, quantity }),
@@ -43,7 +45,7 @@ export async function addItem(userId: number, productId: number, quantity: numbe
 }
 
 export async function updateItem(userId: number, productId: number, quantity: number) {
-  const res = await fetch(`http://localhost:3000/cart/item/${userId}`, {
+  const res = await fetch(`${API_URL}/cart/item/${userId}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ productId, quantity }),
@@ -53,7 +55,7 @@ export async function updateItem(userId: number, productId: number, quantity: nu
 }
 
 export async function removeItem(userId: number, cartItemId: number) {
-  const res = await fetch(`http://localhost:3000/cart/item/${userId}`, {
+  const res = await fetch(`${API_URL}/cart/item/${userId}`, {
     method: "DELETE",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ cartItemId }),
@@ -63,7 +65,7 @@ export async function removeItem(userId: number, cartItemId: number) {
 }
 
 export async function updateAddress(userId: number, shippingAddress: string) {
-  const res = await fetch(`http://localhost:3000/cart/address/${userId}`, {
+  const res = await fetch(`${API_URL}/cart/address/${userId}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ shippingAddress }),
@@ -73,7 +75,7 @@ export async function updateAddress(userId: number, shippingAddress: string) {
 }
 
 export async function deleteCart(userId: number) {
-  const res = await fetch(`http://localhost:3000/cart/${userId}`, {
+  const res = await fetch(`${API_URL}/cart/${userId}`, {
     method: "DELETE",
   });
   if (!res.ok) throw new Error("Failed to delete cart");
