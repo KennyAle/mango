@@ -23,7 +23,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const Page = async ({ params }: Props) => {
   const { id } = await params;
-  const res = await fetch(`${API_URL}/api/products/${id}`);
+  const res = await fetch(`${API_URL}/product/${id}`);
   const data: Product = await res.json();
   return <ProductDetailClient data={data} />;
 };

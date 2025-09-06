@@ -2,7 +2,7 @@ import ProductList from "@/components/ProductList";
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const page = async() => {
-  const res = await fetch(`${API_URL}/api/products/`);
+  const res = await fetch(`${API_URL}/product/`);
   const data = await res.json();
   return (
     <main className="px-4 lg:px-20 py-18 bg-neutral-200 dark:bg-neutral-800">
