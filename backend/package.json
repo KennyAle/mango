@@ -4,7 +4,9 @@
   "main": "index.js",
   "scripts": {
     "test": "NODE_ENV=test jest",
-    "dev": "concurrently \"npx tsc --watch\" \"nodemon dist/server.js\""
+    "dev": "concurrently \"npx tsc --watch\" \"nodemon dist/server.js\"",
+    "build": "tsc",
+    "start": "node dist/server.js"
   },
   "keywords": [],
   "author": "",
