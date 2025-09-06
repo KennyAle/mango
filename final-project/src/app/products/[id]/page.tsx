@@ -23,7 +23,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const Page = async ({ params }: Props) => {
   const { id } = await params;
-  const res = await fetch(`http://localhost:5173/api/products/${id}`);
+  const res = await fetch(`https://mango-1osl.onrender.com/api/products/${id}`);
   const data: Product = await res.json();
   return <ProductDetailClient data={data} />;
 };

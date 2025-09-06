@@ -20,7 +20,7 @@ const ProductSection = () => {
   const [products, setProducts] = useState([])
 
   const getProducts = async () => {
-      const res = await fetch(`http://localhost:5173/api/categories/1`);
+      const res = await fetch(`https://mango-1osl.onrender.com/api/categories/1`);
       const data = await res.json();
       setProducts(data);
     };

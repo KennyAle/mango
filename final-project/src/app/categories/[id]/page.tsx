@@ -7,7 +7,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const page = async ({ params }: Props) => {
   const { id } = await params;
-  const res = await fetch(`http://localhost:5173/api/categories/${id}`);
+  const res = await fetch(`https://mango-1osl.onrender.com/api/categories/${id}`);
   const data = await res.json();
   const resCat = await fetch(`${API_URL}/category/${id}`);
   const dataCat = await resCat.json();
