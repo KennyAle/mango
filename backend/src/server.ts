@@ -20,7 +20,7 @@ const app = express()
 
 // Middleware
 app.use(cors({
-  origin: ["http://localhost:5173", "https://mango-krs3.onrender.com/"], // React port
+  origin: "https://mango-krs3.onrender.com", // React port
   credentials: true // allow cookie transfer
 }))
 app.post('/webhook', express.raw({ type: 'application/json' }), paymentController.webhook)
